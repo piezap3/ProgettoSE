@@ -23,11 +23,11 @@ public class RuleTest {
 
     @Before
     public void setUp() {
-        // Create a sample rule for testing
-        Trigger trigger = new TriggerTimeOfDay("12:56:00"); // Assumi che SampleTrigger implementi l'interfaccia Trigger
-        Action action = new MessageAction("Aiuto"); // Assumi che SampleAction implementi l'interfaccia Action
+        // Creazione regola di test
+        Trigger trigger = new TriggerTimeOfDay("12:56:00"); 
+        Action action = new MessageAction("Aiuto"); 
         EnumActivityType activityType = EnumActivityType.SLEEP_AFTER_FIRING;
-        String sleepTime = "00:00:10"; // 10 secondi di tempo di attesa
+        String sleepTime = "00:00:10"; 
         rule = new Rule("TestRule", trigger, action, activityType, sleepTime);
         
     }
@@ -40,7 +40,7 @@ public class RuleTest {
         assertEquals(EnumActivityType.SLEEP_AFTER_FIRING, rule.getActivityType());
         assertTrue(rule.isActive());
         assertNotNull(rule.getSleepTime());
-        //assertNull(rule.getLastFired());
+        
     }
     
     @Test
@@ -64,26 +64,22 @@ public class RuleTest {
     @Test
     public void testVerTrigger() {
         // Testa la verifica del trigger della regola
-        assertFalse(rule.verTrigger()); // Si presume che il trigger non sia verificato inizialmente
-        // Potrebbe essere necessario fornire un'implementazione specifica del trigger per il tuo sistema
-        // e aggiornare questo test di conseguenza.
+        assertFalse(rule.verTrigger()); 
     }
 
     @Test
     public void testFire() {
         // Testa l'esecuzione della regola
         rule.fire();
-        //assertNotNull(rule.getLastFired());
-        assertFalse(rule.isActive()); // Si presume che diventi inattivo dopo l'esecuzione
+        
+        assertFalse(rule.isActive());
     }
     
     @Test
     public void testCheckAndRun() {
-        // Create an instance of the class to be tested
-        Rule rule = new Rule("Test rule", new TriggerTimeOfDay("12:56:00"), new MessageAction("Aiuto"), EnumActivityType.FIRE_ONCE,"00:00:10");
-        // Call the method to be tested
+        // Chiama il metood da testare
         rule.checkAndRun();
-        // Verify that the expected behavior occurred
+        // Verifia il comportamento corretto
         assertTrue(rule.isActive());
     }
 }
