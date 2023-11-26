@@ -2,30 +2,43 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package segruppo15.Actions;
+package Actions;
 
+import java.io.Serializable;
+import java.time.LocalTime;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javax.swing.JOptionPane;
 
 /**
- * Action to show message
- * @author tti_a
+ * Message Action. Prints a message on screen
+ * @author andrea
  */
-public class MessageAction implements Action{
+public class MessageAction implements Action, Serializable{
     private final String message;
-
+    
     /**
      * Constructor
-     * @param message: message to print
+     * @param message to print on screen 
      */
     public MessageAction(String message) {
         this.message = message;
     }
-    /**
-     * Perform action
-     */
+    
     @Override
     public void exec() {
-        JOptionPane.showMessageDialog(null, message);
+        JOptionPane.showMessageDialog(null, "MessageTrigger!\n"+message+"\n"+LocalTime.now().toString());
+    }
+
+    /**
+     * String Property to show in JavaFX Tab
+     * @return String Property
+     */
+    @Override
+    public StringProperty actionAttribute() {
+        StringProperty p;
+        p = new SimpleStringProperty("Message Action: "+this.message);
+        return p;
     }
     
 }

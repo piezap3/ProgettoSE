@@ -3,13 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package segruppo15.Actions;
+package Actions;
+
+import java.io.Serializable;
 
 /**
  * Action Factory class
  * @author Marco
  */
-public class ActionFactory {
+public class ActionFactory implements Serializable{
+    /**
+     * Method to create the right Action.
+     * @param type type of action
+     * @param str string parameter of Action (Valid for:
+     *      messageAction: message to print
+     *      audioAction: audio file path
+     * @return Action object. Null if invalid type
+     */
     public static Action create(String type, String str) {
         switch (type) {
             case "Message":
