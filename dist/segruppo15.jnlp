@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="segruppo15.jnlp">
+  <information>
+    <title>segruppo15</title>
+    <vendor>tti_a</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib\jlayer-1.0.1.jar" size="148004" download="eager" />
+    <jar href="segruppo15.jar" size="33124" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="segruppo15.Segruppo15"  name="segruppo15" />
+  <update check="always"/>
+</jnlp>
