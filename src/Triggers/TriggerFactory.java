@@ -29,12 +29,6 @@ public class TriggerFactory implements Serializable{
             case "DayOfMonth":
                 if(time==null) throw new IllegalArgumentException("Day of the month is not specified!");
                 return new TriggerDayOfMonth(time);
-            case "DayOfWeek":
-                if (time == null) throw new IllegalArgumentException("Day of the week is not specified!");
-                return new TriggerDayOfTheWeek(time);
-            case "Annual":
-                if(time == null) throw new IllegalArgumentException("Date is not specified!");
-                return new TriggerAnnual(time);
             default:
                 return null;
         }
