@@ -34,6 +34,8 @@ public class ActionFactory implements Serializable{
                 return new CopyFileAction(str);
             case "WriteOnFile":
                 return new WriteOnFileAction(str);
+            case "ExternalProgram":
+                return new ExternalProgramAction(str);
             default:
                 return null;
         }
