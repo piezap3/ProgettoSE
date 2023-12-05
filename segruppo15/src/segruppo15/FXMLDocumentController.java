@@ -169,6 +169,7 @@ public class FXMLDocumentController implements Initializable {
                 labelOrarioID.setVisible(false); 
                 labelDayOfWeek.clear();
                 labelDayOfWeek.setVisible(false);
+                DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
             }else if(newValue != null && newValue.equals("DayOfWeek")){
                 labelDayOfWeek.setVisible(true);
@@ -176,7 +177,7 @@ public class FXMLDocumentController implements Initializable {
                 labelOrarioID.setVisible(false);
                 labelDayOfMonth.clear();
                 labelDayOfMonth.setVisible(false);
-                DatePickerID.setVisible(false);
+                DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
             }else if(newValue != null && newValue.equals("Annual")){
                 DatePickerID.setVisible(true);
@@ -512,7 +513,7 @@ public class FXMLDocumentController implements Initializable {
         FileButton.setVisible(false);
         labelWriteMessage.setVisible(false);
         labelWriteMessage.clear();
-        
+        DatePickerID.setValue(null);
         
         SleepingID.clear();
     }
