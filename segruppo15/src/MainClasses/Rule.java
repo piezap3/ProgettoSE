@@ -102,7 +102,6 @@ public class Rule implements Serializable{
         
         LocalTime lastF = this.lastFired;
         LocalTime sleep = this.getSleepTime();
-        System.out.println("sono in update sleep, lastF: "+lastF+" sleep time: "+sleep);
         // Check if lastfired + sleeptime < now
         LocalTime sumTime = lastF.plusHours(sleep.getHour())
                                 .plusMinutes(sleep.getMinute())

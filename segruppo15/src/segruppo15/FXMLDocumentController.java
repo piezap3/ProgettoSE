@@ -160,24 +160,24 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfMonth.clear();
                 labelDayOfMonth.setVisible(false);
                 labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
                 DatePickerID.setValue(null);
+                labelDayOfWeek.setVisible(false);
                 DatePickerID.setVisible(false);
             } else if(newValue != null && newValue.equals("DayOfMonth")){
                 labelDayOfMonth.setVisible(true);
                 labelOrarioID.clear();
                 labelOrarioID.setVisible(false); 
                 labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
                 DatePickerID.setValue(null);
+                labelDayOfWeek.setVisible(false);
                 DatePickerID.setVisible(false);
             }else if(newValue != null && newValue.equals("DayOfWeek")){
                 labelDayOfWeek.setVisible(true);
                 labelOrarioID.clear();
                 labelOrarioID.setVisible(false);
                 labelDayOfMonth.clear();
-                labelDayOfMonth.setVisible(false);
                 DatePickerID.setValue(null);
+                labelDayOfMonth.setVisible(false);
                 DatePickerID.setVisible(false);
             }else if(newValue != null && newValue.equals("Annual")){
                 DatePickerID.setVisible(true);
