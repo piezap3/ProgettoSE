@@ -140,7 +140,7 @@ public class FXMLDocumentController implements Initializable {
         triggerComboBoxID.setItems(itemsTriggers);
         
         // Viene definita una struttura per contenere i diversi tipi di azioni
-        ObservableList<String> itemsActions = FXCollections.observableArrayList("Audio", "Message", "Delete File", "MoveFile", "CopyFile", "WriteOnFile");
+        ObservableList<String> itemsActions = FXCollections.observableArrayList("Audio", "Message", "Delete File", "MoveFile", "CopyFile", "WriteOnFile","ExternalProgram");
         actionsComboBoxID.setItems(itemsActions);
         
         // Viene definita una struttura per contenere i tre comportamenti delle regole
@@ -197,7 +197,7 @@ public class FXMLDocumentController implements Initializable {
         // Imposta un listener sulla selezione della ComboBox
         actionsComboBoxID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Controlla il valore selezionato e mostra/nascondi la Label in base ad esso
-            if (newValue != null && ((newValue.equals("Audio"))||newValue.equals("Delete File") || newValue.equals("MoveFile") || newValue.equals("CopyFile"))) {
+            if (newValue != null && ((newValue.equals("Audio"))||newValue.equals("Delete File") || newValue.equals("MoveFile") || newValue.equals("CopyFile") || newValue.equals("ExternalProgram"))) {
                 FileButton.setText("Seleziona File");
                 FileButton.setVisible(true);
                 labelMessageActionID.setVisible(false);// Mostra la Label se l'elemento selezionato è "Mostra Label"
@@ -421,6 +421,8 @@ public class FXMLDocumentController implements Initializable {
             String path1 = selectedFileWrite.toString();
             String path2 = labelWriteMessage.getText();
             stringaAction=path1+"//"+path2;
+        }else if(action.equals("ExternalProgram")){
+            stringaAction=audio_path;
         }
         
         //type of trigger
