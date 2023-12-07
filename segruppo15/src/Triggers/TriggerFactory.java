@@ -41,6 +41,9 @@ public class TriggerFactory implements Serializable{
             case "FileExistence":
                 if (time==null) throw new IllegalArgumentException("File path is not specified!");
                 return new TriggerFileExistence(time);
+            case "FileSize":
+                if (time==null) throw new IllegalArgumentException("File path is not specified!");
+                return new TriggerFileSize(time);
             default:
                 return null;
         }
