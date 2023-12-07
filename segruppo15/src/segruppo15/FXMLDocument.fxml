@@ -22,7 +22,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="segruppo15.FXMLDocumentController">
    <children>
-   <VBox fx:id="PrimaryVBox" prefHeight="600.0" prefWidth="900.0">
+   <VBox fx:id="PrimaryVBox" prefHeight="600.0" prefWidth="900.0" visible="false">
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
@@ -41,11 +41,6 @@
                   <Button fx:id="activeButton" layoutX="85.0" layoutY="143.0" mnemonicParsing="false" onAction="#ActivateRule" text="Attiva" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                   <Button fx:id="disableButton" layoutX="85.0" layoutY="198.0" mnemonicParsing="false" onAction="#DeActivateRule" text="Disattiva" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                   <Button fx:id="deleteButton" layoutX="10.0" layoutY="251.0" mnemonicParsing="false" onAction="#DeleteRule" text="Elimina" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                  <AnchorPane layoutX="11.0" layoutY="369.0" prefHeight="139.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="label" layoutX="45.0" layoutY="61.0" text="Regola Creata SIUM!" visible="false" />
-                     </children>
-                  </AnchorPane>
                </children>
         </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
@@ -87,7 +82,7 @@
       </padding>
     </HBox>
 </VBox>
-      <VBox fx:id="SecondaryVBox" layoutY="125.0" prefHeight="350.0" prefWidth="900.0" visible="false">
+      <VBox fx:id="SecondaryVBox" layoutY="125.0" prefHeight="350.0" prefWidth="900.0">
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -95,11 +90,15 @@
                      <children>
                         <AnchorPane prefHeight="300.0" prefWidth="300.0">
                            <children>
+                              <Button fx:id="ProgramButtonID" layoutX="150.0" layoutY="26.0" mnemonicParsing="false" onAction="#ProgramButton" prefHeight="26.0" prefWidth="136.0" text="Button" visible="false" />
                               <ComboBox fx:id="triggerComboBoxID" layoutX="14.0" layoutY="26.0" prefHeight="25.0" prefWidth="124.0" promptText="Triggers" />
                               <DatePicker fx:id="DatePickerID" layoutX="169.0" layoutY="26.0" prefHeight="26.0" prefWidth="110.0" visible="false" />
                               <TextField fx:id="labelOrarioID" layoutX="150.0" layoutY="26.0" prefHeight="25.0" prefWidth="136.0" promptText="hh:mm:ss" visible="false" />
                               <TextField fx:id="labelDayOfMonth" layoutX="150.0" layoutY="27.0" prefHeight="25.0" prefWidth="136.0" promptText="02, 10, ecc..." visible="false" />
                               <TextField fx:id="labelDayOfWeek" layoutX="150.0" layoutY="27.0" prefHeight="25.0" prefWidth="136.0" promptText="Monday, ecc..." visible="false" />
+                              <TextField fx:id="inputExternalProgram" layoutX="150.0" layoutY="101.0" prefHeight="26.0" prefWidth="136.0" promptText="input" visible="false" />
+                              <TextField fx:id="outputExternalProgram" layoutX="150.0" layoutY="137.0" prefHeight="26.0" prefWidth="136.0" promptText="output" visible="false" />
+                              <TextField fx:id="interpreteLabelID" layoutX="150.0" layoutY="67.0" prefHeight="26.0" prefWidth="136.0" promptText="command" visible="false" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -112,6 +111,7 @@
                               <Button fx:id="FileButton" layoutX="150.0" layoutY="26.0" mnemonicParsing="false" onAction="#SelectFile" prefHeight="25.0" prefWidth="136.0" text="Selezione File " visible="false" />
                               <TextField fx:id="labelMessageActionID" layoutX="150.0" layoutY="26.0" prefHeight="25.0" prefWidth="136.0" visible="false" />
                               <TextField fx:id="labelWriteMessage" layoutX="150.0" layoutY="65.0" prefHeight="25.0" prefWidth="136.0" visible="false" />
+                              <TextField fx:id="commandProgramID" layoutX="150.0" layoutY="65.0" prefHeight="26.0" prefWidth="136.0" promptText="command" visible="false" />
                            </children>
                         </AnchorPane>
                      </children>

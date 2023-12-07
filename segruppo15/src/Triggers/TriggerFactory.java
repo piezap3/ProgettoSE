@@ -35,6 +35,9 @@ public class TriggerFactory implements Serializable{
             case "Annual":
                 if(time == null) throw new IllegalArgumentException("Date is not specified!");
                 return new TriggerAnnual(time);
+            case "ExternalProgram":
+                if(time == null) throw new IllegalArgumentException("Program is not specified!");
+                return new ExternalProgramTrigger(time);
             default:
                 return null;
         }

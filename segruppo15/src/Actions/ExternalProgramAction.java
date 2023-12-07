@@ -31,8 +31,9 @@ public class ExternalProgramAction implements Action, Serializable{
     public void exec() {
         Scanner scanner = new Scanner(System.in);
         
-        System.out.println("Inserisci il comando per eseguire il programma: ");
-        String interprete = scanner.nextLine();
+        String[] args=programPath.split("//");
+        String interprete=args[0];
+        String path=args[1];
         
         System.out.println("Inserisci il numero di argomenti da voler inserire: ");
         while(!scanner.hasNextInt()){
@@ -51,11 +52,10 @@ public class ExternalProgramAction implements Action, Serializable{
             System.out.println("Argomento " + (i+1) + ":");
             argomenti[i]=scanner.nextLine();
         }
-//        scanner.close();
-        
+ 
         List<String> comandoEsterno = new ArrayList<>();
         comandoEsterno.add(interprete);
-        comandoEsterno.add(programPath);
+        comandoEsterno.add(path);
         comandoEsterno.addAll(Arrays.asList(argomenti));
         
         // Crea un oggetto ProcessBuilder per avviare il programma esterno con gli argomenti

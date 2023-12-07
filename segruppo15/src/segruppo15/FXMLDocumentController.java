@@ -66,6 +66,16 @@ public class FXMLDocumentController implements Initializable {
     private TextField labelWriteMessage;
     @FXML
     private Button FileButton;
+    @FXML
+    private TextField inputExternalProgram;
+    @FXML
+    private TextField outputExternalProgram;
+    @FXML
+    private Button ProgramButtonID;
+    @FXML
+    private TextField interpreteLabelID;
+    @FXML
+    private TextField commandProgramID;
     
     
     
@@ -74,8 +84,6 @@ public class FXMLDocumentController implements Initializable {
         this.stage = stage;
     }
     
-    @FXML
-    private Label label;
     @FXML
     private ComboBox<String> triggerComboBoxID;
     @FXML
@@ -127,7 +135,10 @@ public class FXMLDocumentController implements Initializable {
     
     private File selectedFile;
     private File selectedFileWrite;
+    private File programSelected;
+    private File selectedProgram;
     private String audio_path;
+    private String program_path;
     private File directoryDestinazione=null;
     private RuleManager manager = new RuleManager();
     RuleChecker RuleChecker = new RuleChecker(manager.getList(),mainTab);
@@ -136,7 +147,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Viene definita una struttura per contenere i diversi tipi di trigger
-        ObservableList<String> itemsTriggers = FXCollections.observableArrayList("TimeOfDay", "DayOfMonth", "DayOfWeek", "Annual");
+        ObservableList<String> itemsTriggers = FXCollections.observableArrayList("TimeOfDay", "DayOfMonth", "DayOfWeek", "Annual", "ExternalProgram");
         triggerComboBoxID.setItems(itemsTriggers);
         
         // Viene definita una struttura per contenere i diversi tipi di azioni
@@ -163,6 +174,14 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfWeek.setVisible(false);
                 DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
+                inputExternalProgram.setVisible(false);
+                interpreteLabelID.setVisible(false);
+                outputExternalProgram.setVisible(false);
+                inputExternalProgram.clear();
+                outputExternalProgram.clear();
+                interpreteLabelID.clear();
+                programSelected=null;
+                ProgramButtonID.setVisible(false);
             } else if(newValue != null && newValue.equals("DayOfMonth")){
                 labelDayOfMonth.setVisible(true);
                 labelOrarioID.clear();
@@ -171,6 +190,14 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfWeek.setVisible(false);
                 DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
+                inputExternalProgram.setVisible(false);
+                outputExternalProgram.setVisible(false);
+                interpreteLabelID.setVisible(false);
+                inputExternalProgram.clear();
+                outputExternalProgram.clear();
+                interpreteLabelID.clear();
+                programSelected=null;
+                ProgramButtonID.setVisible(false);
             }else if(newValue != null && newValue.equals("DayOfWeek")){
                 labelDayOfWeek.setVisible(true);
                 labelOrarioID.clear();
@@ -179,6 +206,14 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfMonth.setVisible(false);
                 DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
+                inputExternalProgram.setVisible(false);
+                outputExternalProgram.setVisible(false);
+                inputExternalProgram.clear();
+                outputExternalProgram.clear();
+                interpreteLabelID.setVisible(false);
+                interpreteLabelID.clear();
+                programSelected=null;
+                ProgramButtonID.setVisible(false);
             }else if(newValue != null && newValue.equals("Annual")){
                 DatePickerID.setVisible(true);
                 labelOrarioID.clear();
@@ -187,45 +222,89 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfMonth.setVisible(false);
                 labelDayOfWeek.clear();
                 labelDayOfWeek.setVisible(false);
+                inputExternalProgram.setVisible(false);
+                outputExternalProgram.setVisible(false);
+                inputExternalProgram.clear();
+                outputExternalProgram.clear();
+                interpreteLabelID.setVisible(false);
+                interpreteLabelID.clear();
+                programSelected=null;
+                ProgramButtonID.setVisible(false);
+            }else if(newValue != null && newValue.equals("ExternalProgram")){
+                DatePickerID.setValue(null);
+                DatePickerID.setVisible(false);
+                labelOrarioID.clear();
+                labelOrarioID.setVisible(false);
+                labelDayOfMonth.clear();
+                labelDayOfMonth.setVisible(false);
+                labelDayOfWeek.clear();
+                labelDayOfWeek.setVisible(false);
+                inputExternalProgram.setVisible(true);
+                outputExternalProgram.setVisible(true);
+                ProgramButtonID.setText("Seleziona File");
+                interpreteLabelID.setVisible(true);
+                ProgramButtonID.setVisible(true);
+                programSelected=null;
             }else{
                 labelOrarioID.setVisible(false); // Nascondi tutti i textfield
                 labelDayOfMonth.setVisible(false);//nascondi tutti i textfield
                 labelDayOfWeek.setVisible(false);//nascondi tutti i textfield
                 DatePickerID.setVisible(false);//nascondi tutti i textfield
+                inputExternalProgram.setVisible(false);
+                outputExternalProgram.setVisible(false);
+                ProgramButtonID.setVisible(false);
+                interpreteLabelID.setVisible(false);
             }
         });
         
         // Imposta un listener sulla selezione della ComboBox
         actionsComboBoxID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Controlla il valore selezionato e mostra/nascondi la Label in base ad esso
-            if (newValue != null && ((newValue.equals("Audio"))||newValue.equals("Delete File") || newValue.equals("MoveFile") || newValue.equals("CopyFile") || newValue.equals("ExternalProgram"))) {
+            if (newValue != null && ((newValue.equals("Audio"))||newValue.equals("Delete File") || newValue.equals("MoveFile") || newValue.equals("CopyFile"))) {
                 FileButton.setText("Seleziona File");
                 FileButton.setVisible(true);
                 labelMessageActionID.setVisible(false);// Mostra la Label se l'elemento selezionato è "Mostra Label"
                 labelWriteMessage.setVisible(false);
+                commandProgramID.setVisible(false);
                 CreaRegolaID.setDisable(true); 
                 selectedFile=null;
                 directoryDestinazione=null;
                 selectedFileWrite=null;
+                selectedProgram=null;
                 labelMessageActionID.clear();
             } else if(newValue != null && newValue.equals("WriteOnFile")){
                 FileButton.setText("Seleziona File");
                 FileButton.setVisible(true);
                 labelMessageActionID.setVisible(false);
                 labelWriteMessage.setVisible(true);
+                commandProgramID.setVisible(false);
                 CreaRegolaID.setDisable(true); 
                 selectedFile=null;
                 directoryDestinazione=null;
                 selectedFileWrite=null;
+                selectedProgram=null;
                 labelMessageActionID.clear();
             }else if(newValue != null && newValue.equals("Message")){
                 labelMessageActionID.setVisible(true);
                 FileButton.setVisible(false);
                 labelWriteMessage.setVisible(false);
+                commandProgramID.setVisible(false);
                 CreaRegolaID.setDisable(true); 
                 selectedFile=null;
                 directoryDestinazione=null;
                 selectedFileWrite=null;
+                selectedProgram=null;
+            }else if(newValue != null && newValue.equals("ExternalProgram")){
+                FileButton.setText("Seleziona File");
+                FileButton.setVisible(true);
+                labelMessageActionID.setVisible(false);
+                labelWriteMessage.setVisible(false);
+                commandProgramID.setVisible(true);
+                CreaRegolaID.setDisable(true); 
+                selectedFile=null;
+                directoryDestinazione=null;
+                selectedFileWrite=null;
+                selectedProgram=null;
             }
         });
         
@@ -247,7 +326,11 @@ public class FXMLDocumentController implements Initializable {
         RuleTypeID.setOnAction(e -> updateStateButton());
         labelDayOfMonth.textProperty().addListener((observable, oldvalue, newValue) -> updateStateButton());
         labelWriteMessage.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
+        commandProgramID.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
         labelDayOfWeek.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
+        inputExternalProgram.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
+        outputExternalProgram.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
+        interpreteLabelID.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
         
         
         // Service
@@ -274,7 +357,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void SelectFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-         fileChooser.setTitle("Seleziona il file");
+        fileChooser.setTitle("Seleziona il file");
         if(actionsComboBoxID.getValue().equals("Audio")){
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("File audio", "*.mp3", "*.wav", "*.aac")
@@ -284,6 +367,8 @@ public class FXMLDocumentController implements Initializable {
         // Mostra il dialogo di selezione file e ottieni il file selezionato
         if(actionsComboBoxID.getValue().equals("WriteOnFile")){
             selectedFileWrite=fileChooser.showOpenDialog(stage);
+        }if(actionsComboBoxID.getValue().equals("ExternalProgram")){
+            selectedProgram=fileChooser.showOpenDialog(stage);
         }else{
             selectedFile = fileChooser.showOpenDialog(stage);
         }
@@ -306,6 +391,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("File e directory scelti: "+selectedFile.getAbsolutePath()+directoryDestinazione.getAbsolutePath());
         } else if(selectedFileWrite!=null){
             FileButton.setText(selectedFileWrite.getName());
+        } else if(selectedProgram!=null){
+            audio_path=selectedProgram.getAbsolutePath();
+            FileButton.setText(selectedProgram.getName());
         }
         updateStateButton();
     }
@@ -346,11 +434,17 @@ public class FXMLDocumentController implements Initializable {
         
         // Controllo sulla presenza del messaggio nel textfield
         boolean messaggioVuoto = labelMessageActionID.getText().isEmpty();
+        boolean inputVuoto = inputExternalProgram.getText().isEmpty();
+        boolean outputVuoto = outputExternalProgram.getText().isEmpty();
+        boolean interpreteVuoto = interpreteLabelID.getText().isEmpty();
         boolean writeMessage=labelWriteMessage.getText().isEmpty();
+        boolean programSelect=commandProgramID.getText().isEmpty();
         //imposto false al file selezionato e alla directory selezionata
         boolean fileSelezionato=false;
         boolean fileSelezionatoWrite=false;
+        boolean fileProgrammaSelezionato=false;
         boolean directorySelezionata=false;
+        boolean fileProgramSelected=false;
         
         // Ottiene il valore dall comboBox 
         String valoreRuleType = RuleTypeID.getValue(); 
@@ -378,8 +472,16 @@ public class FXMLDocumentController implements Initializable {
             fileSelezionatoWrite=true;
         }
         
+        if(programSelected!=null){
+            fileProgrammaSelezionato=true;
+        }
+        
+        if(selectedProgram!=null){
+            fileProgramSelected=true;
+        }
+        
         // Attivazione e disattivazione del pulsante !messaggioVuoto || fileSelezionato || (directorySelezionata&&fileSelezionato) || (!writeMessage&&fileSelezionato)
-        if(((orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid) && (!messaggioVuoto || fileSelezionato || directorySelezionata || !writeMessage&&fileSelezionatoWrite) 
+        if(((orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid || !interpreteVuoto&&!inputVuoto&&!outputVuoto&&fileProgrammaSelezionato) && (!messaggioVuoto || fileSelezionato || directorySelezionata || !writeMessage&&fileSelezionatoWrite || !programSelect&&fileProgramSelected) 
                 &&  ruleTypeChecked)==true){
             if(valoreRuleType.equals(SLP)){
                 if(orarioSleepingValido){
@@ -423,7 +525,8 @@ public class FXMLDocumentController implements Initializable {
             String path2 = labelWriteMessage.getText();
             stringaAction=path1+"//"+path2;
         }else if(action.equals("ExternalProgram")){
-            stringaAction=audio_path;
+            String command=commandProgramID.getText();
+            stringaAction=command+"//"+audio_path;
         }
         
         //type of trigger
@@ -435,6 +538,11 @@ public class FXMLDocumentController implements Initializable {
             stringTrigger=labelDayOfWeek.getText();
         }else if(trigger.equals("Annual")){
             stringTrigger=DatePickerID.getValue().toString();
+        }else if(trigger.equals("ExternalProgram")){
+            String interprete=interpreteLabelID.getText();
+            String input=inputExternalProgram.getText();
+            String output=outputExternalProgram.getText();
+            stringTrigger=program_path+"//"+interprete+"//"+input+"//"+output;
         }
         
         //prende il valore activity type e lo strasforma in enum
@@ -515,7 +623,17 @@ public class FXMLDocumentController implements Initializable {
         FileButton.setVisible(false);
         labelWriteMessage.setVisible(false);
         labelWriteMessage.clear();
+        commandProgramID.setVisible(false);
+        commandProgramID.clear();
         DatePickerID.setValue(null);
+        programSelected=null;
+        inputExternalProgram.setVisible(false);
+        inputExternalProgram.clear();
+        outputExternalProgram.setVisible(false);
+        outputExternalProgram.clear();
+        interpreteLabelID.setVisible(false);
+        interpreteLabelID.clear();
+        ProgramButtonID.setVisible(false);
         
         SleepingID.clear();
     }
@@ -552,4 +670,22 @@ public class FXMLDocumentController implements Initializable {
     private boolean isValidYear(LocalDate day) {
         return day!=null;
     }
+
+    @FXML
+    private void ProgramButton(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleziona il file");
+        
+        if(triggerComboBoxID.getValue().equals("ExternalProgram")){
+            programSelected=fileChooser.showOpenDialog(stage);
+        }
+        
+        if(programSelected!=null){
+            ProgramButtonID.setText(programSelected.getName());
+            program_path=programSelected.getAbsolutePath();
+            System.out.println("percorso file: "+program_path);
+        }
+        updateStateButton();
+    }
+
 }
