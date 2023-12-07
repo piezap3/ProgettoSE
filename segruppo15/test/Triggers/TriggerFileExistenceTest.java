@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author tti_a
+ * @author mattiiaaa
  */
 public class TriggerFileExistenceTest {
     
@@ -45,7 +45,7 @@ public class TriggerFileExistenceTest {
     }
 
     /**
-     * Test of isVerified method, of class TriggerFileExistence.
+     * Test of isVerified method (class TriggerFileExistence).
      */
     @Test
     public void testIsVerified() throws IOException {
@@ -69,7 +69,7 @@ public class TriggerFileExistenceTest {
     }
 
     /**
-     * Test of triggerAttribute method, of class TriggerFileExistence.
+     * Test of triggerAttribute method (class TriggerFileExistence).
      */
     @Test
     public void testTriggerAttribute() {

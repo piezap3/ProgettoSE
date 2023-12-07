@@ -13,7 +13,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author andrea
+ * @author mattiiaaa
  */
 public class TriggerDayOfTheWeek implements Trigger, Serializable{
     private String day;

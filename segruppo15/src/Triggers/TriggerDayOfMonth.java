@@ -11,7 +11,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author tti_a
+ * @author mattiiaaa
  */
 public class TriggerDayOfMonth implements Trigger, Serializable{
     private int dayOfMonth;

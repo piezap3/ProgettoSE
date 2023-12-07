@@ -16,7 +16,7 @@ import javax.swing.filechooser.FileSystemView;
 
 /**
  *
- * @author tti_a
+ * @author mattiiaaa
  */
 public class TriggerFileExistence implements Trigger, Serializable{
     private String fileName;
