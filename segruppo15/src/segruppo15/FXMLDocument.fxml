@@ -22,7 +22,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="segruppo15.FXMLDocumentController">
    <children>
-   <VBox fx:id="PrimaryVBox" prefHeight="600.0" prefWidth="900.0" visible="false">
+   <VBox fx:id="PrimaryVBox" prefHeight="600.0" prefWidth="900.0">
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
@@ -82,7 +82,7 @@
       </padding>
     </HBox>
 </VBox>
-      <VBox fx:id="SecondaryVBox" layoutY="125.0" prefHeight="350.0" prefWidth="900.0">
+      <VBox fx:id="SecondaryVBox" layoutY="125.0" prefHeight="350.0" prefWidth="900.0" visible="false">
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -99,6 +99,7 @@
                               <TextField fx:id="inputExternalProgram" layoutX="150.0" layoutY="101.0" prefHeight="26.0" prefWidth="136.0" promptText="input" visible="false" />
                               <TextField fx:id="outputExternalProgram" layoutX="150.0" layoutY="137.0" prefHeight="26.0" prefWidth="136.0" promptText="output" visible="false" />
                               <TextField fx:id="interpreteLabelID" layoutX="150.0" layoutY="67.0" prefHeight="26.0" prefWidth="136.0" promptText="command" visible="false" />
+                              <TextField fx:id="labelFileExistence" layoutX="150.0" layoutY="27.0" prefHeight="25.0" prefWidth="136.0" promptText="nome.estensione" visible="false" />
                            </children>
                         </AnchorPane>
                      </children>

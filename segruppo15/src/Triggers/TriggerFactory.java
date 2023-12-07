@@ -38,6 +38,9 @@ public class TriggerFactory implements Serializable{
             case "ExternalProgram":
                 if(time == null) throw new IllegalArgumentException("Program is not specified!");
                 return new ExternalProgramTrigger(time);
+            case "FileExistence":
+                if (time==null) throw new IllegalArgumentException("File path is not specified!");
+                return new TriggerFileExistence(time);
             default:
                 return null;
         }

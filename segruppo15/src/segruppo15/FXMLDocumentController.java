@@ -76,6 +76,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField interpreteLabelID;
     @FXML
     private TextField commandProgramID;
+    @FXML
+    private TextField labelFileExistence;
     
     
     
@@ -140,14 +142,14 @@ public class FXMLDocumentController implements Initializable {
     private String audio_path;
     private String program_path;
     private File directoryDestinazione=null;
-    private RuleManager manager = new RuleManager();
+    private RuleManager manager = RuleManager.getInstance();//new RuleManager();RuleManager.getInstance();
     RuleChecker RuleChecker = new RuleChecker(manager.getList(),mainTab);
      
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Viene definita una struttura per contenere i diversi tipi di trigger
-        ObservableList<String> itemsTriggers = FXCollections.observableArrayList("TimeOfDay", "DayOfMonth", "DayOfWeek", "Annual", "ExternalProgram");
+        ObservableList<String> itemsTriggers = FXCollections.observableArrayList("TimeOfDay", "DayOfMonth", "DayOfWeek", "Annual", "ExternalProgram", "FileExistence");
         triggerComboBoxID.setItems(itemsTriggers);
         
         // Viene definita una struttura per contenere i diversi tipi di azioni
@@ -174,6 +176,8 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfWeek.setVisible(false);
                 DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
+                labelFileExistence.clear();
+                labelFileExistence.setVisible(false);
                 inputExternalProgram.setVisible(false);
                 interpreteLabelID.setVisible(false);
                 outputExternalProgram.setVisible(false);
@@ -190,6 +194,8 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfWeek.setVisible(false);
                 DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
+                labelFileExistence.clear();
+                labelFileExistence.setVisible(false);
                 inputExternalProgram.setVisible(false);
                 outputExternalProgram.setVisible(false);
                 interpreteLabelID.setVisible(false);
@@ -206,6 +212,8 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfMonth.setVisible(false);
                 DatePickerID.setValue(null);
                 DatePickerID.setVisible(false);
+                labelFileExistence.clear();
+                labelFileExistence.setVisible(false);
                 inputExternalProgram.setVisible(false);
                 outputExternalProgram.setVisible(false);
                 inputExternalProgram.clear();
@@ -222,6 +230,8 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfMonth.setVisible(false);
                 labelDayOfWeek.clear();
                 labelDayOfWeek.setVisible(false);
+                labelFileExistence.clear();
+                labelFileExistence.setVisible(false);
                 inputExternalProgram.setVisible(false);
                 outputExternalProgram.setVisible(false);
                 inputExternalProgram.clear();
@@ -239,17 +249,35 @@ public class FXMLDocumentController implements Initializable {
                 labelDayOfMonth.setVisible(false);
                 labelDayOfWeek.clear();
                 labelDayOfWeek.setVisible(false);
+                labelFileExistence.clear();
+                labelFileExistence.setVisible(false);
                 inputExternalProgram.setVisible(true);
                 outputExternalProgram.setVisible(true);
                 ProgramButtonID.setText("Seleziona File");
                 interpreteLabelID.setVisible(true);
                 ProgramButtonID.setVisible(true);
                 programSelected=null;
+            }else if(newValue != null && newValue.equals("FileExistence")){
+                labelFileExistence.setVisible(true);
+                labelOrarioID.clear();
+                labelOrarioID.setVisible(false);
+                labelDayOfMonth.clear();
+                labelDayOfMonth.setVisible(false);
+                labelDayOfWeek.clear();
+                labelDayOfWeek.setVisible(false);
+                DatePickerID.setValue(null);
+                DatePickerID.setVisible(false);
+                inputExternalProgram.setVisible(false);
+                outputExternalProgram.setVisible(false);
+                interpreteLabelID.setVisible(false);
+                ProgramButtonID.setVisible(false);
+                programSelected=null;
             }else{
                 labelOrarioID.setVisible(false); // Nascondi tutti i textfield
                 labelDayOfMonth.setVisible(false);//nascondi tutti i textfield
                 labelDayOfWeek.setVisible(false);//nascondi tutti i textfield
                 DatePickerID.setVisible(false);//nascondi tutti i textfield
+                labelFileExistence.setVisible(false);//nascondi tutti i textfield
                 inputExternalProgram.setVisible(false);
                 outputExternalProgram.setVisible(false);
                 ProgramButtonID.setVisible(false);
@@ -331,7 +359,7 @@ public class FXMLDocumentController implements Initializable {
         inputExternalProgram.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
         outputExternalProgram.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
         interpreteLabelID.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
-        
+        labelFileExistence.textProperty().addListener((observable, oldvalue, newValue) -> updateStateButton());
         
         // Service
         RuleChecker rc = new RuleChecker(manager.getList(),mainTab);
@@ -431,6 +459,8 @@ public class FXMLDocumentController implements Initializable {
         boolean dayOfWeekValid = isValidFormatDate(labelDayOfWeek.getText());
         //controllo giorno dell'anno valido
         boolean dayOfYear = isValidYear(DatePickerID.getValue());
+        //controllo che il nome del file sia valido
+        boolean fileName = isValidName(labelFileExistence.getText());
         
         // Controllo sulla presenza del messaggio nel textfield
         boolean messaggioVuoto = labelMessageActionID.getText().isEmpty();
@@ -481,7 +511,7 @@ public class FXMLDocumentController implements Initializable {
         }
         
         // Attivazione e disattivazione del pulsante !messaggioVuoto || fileSelezionato || (directorySelezionata&&fileSelezionato) || (!writeMessage&&fileSelezionato)
-        if(((orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid || !interpreteVuoto&&!inputVuoto&&!outputVuoto&&fileProgrammaSelezionato) && (!messaggioVuoto || fileSelezionato || directorySelezionata || !writeMessage&&fileSelezionatoWrite || !programSelect&&fileProgramSelected) 
+        if(((fileName || orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid || !interpreteVuoto&&!inputVuoto&&!outputVuoto&&fileProgrammaSelezionato) && (!messaggioVuoto || fileSelezionato || directorySelezionata || !writeMessage&&fileSelezionatoWrite || !programSelect&&fileProgramSelected) 
                 &&  ruleTypeChecked)==true){
             if(valoreRuleType.equals(SLP)){
                 if(orarioSleepingValido){
@@ -543,6 +573,8 @@ public class FXMLDocumentController implements Initializable {
             String input=inputExternalProgram.getText();
             String output=outputExternalProgram.getText();
             stringTrigger=program_path+"//"+interprete+"//"+input+"//"+output;
+        }else if(trigger.equals("FileExistence")){
+            stringTrigger=labelFileExistence.getText();
         }
         
         //prende il valore activity type e lo strasforma in enum
@@ -687,5 +719,13 @@ public class FXMLDocumentController implements Initializable {
         }
         updateStateButton();
     }
-
+    
+    private boolean isValidName(String name){
+        String regex="[a-zA-Z0-9_.-]+$";
+        Pattern pattern=Pattern.compile(regex);
+        Matcher matcher=pattern.matcher(name);
+        
+        return matcher.matches();
+    }
+    
 }

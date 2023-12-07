@@ -14,14 +14,27 @@ import javafx.collections.ObservableList;
  * @author Marco
  */
 public class RuleManager implements Serializable{
+    private static RuleManager instance;
     private ObservableList<Rule> ruleList;
     
     /**
      * Class constructor. Creates an empty observable list of Rules
      */
-    public RuleManager() {
+    private RuleManager() {
         this.ruleList = FXCollections.observableArrayList();
     }
+    
+    /**
+     * The getInstance method is responsible for providing a unique instance of the RuleManager class using the Singleton pattern. 
+     * @return RuleManager
+     */
+    public static synchronized RuleManager getInstance(){
+        if(instance==null){
+            instance=new RuleManager();
+        }
+        return instance;
+    }
+    
     /**
      * Method to add a Rule in the list
      * @param r 
