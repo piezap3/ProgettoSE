@@ -100,6 +100,7 @@
                               <TextField fx:id="outputExternalProgram" layoutX="150.0" layoutY="137.0" prefHeight="26.0" prefWidth="136.0" promptText="output" visible="false" />
                               <TextField fx:id="interpreteLabelID" layoutX="150.0" layoutY="67.0" prefHeight="26.0" prefWidth="136.0" promptText="command" visible="false" />
                               <TextField fx:id="labelFileExistence" layoutX="150.0" layoutY="27.0" prefHeight="25.0" prefWidth="136.0" promptText="nome.estensione" visible="false" />
+                              <TextField fx:id="textFieldFileSize" layoutX="150.0" layoutY="67.0" prefHeight="26.0" prefWidth="136.0" visible="false" />
                            </children>
                         </AnchorPane>
                      </children>

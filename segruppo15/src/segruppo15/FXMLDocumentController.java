@@ -78,6 +78,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField commandProgramID;
     @FXML
     private TextField labelFileExistence;
+    @FXML
+    private TextField textFieldFileSize;
     
     
     
@@ -139,8 +141,10 @@ public class FXMLDocumentController implements Initializable {
     private File selectedFileWrite;
     private File programSelected;
     private File selectedProgram;
+    private File fileToCompare;
     private String audio_path;
     private String program_path;
+    private String pathFileToCompare;
     private File directoryDestinazione=null;
     private RuleManager manager = RuleManager.getInstance();//new RuleManager();RuleManager.getInstance();
     RuleChecker RuleChecker = new RuleChecker(manager.getList(),mainTab);
@@ -149,7 +153,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Viene definita una struttura per contenere i diversi tipi di trigger
-        ObservableList<String> itemsTriggers = FXCollections.observableArrayList("TimeOfDay", "DayOfMonth", "DayOfWeek", "Annual", "ExternalProgram", "FileExistence");
+        ObservableList<String> itemsTriggers = FXCollections.observableArrayList("TimeOfDay", "DayOfMonth", "DayOfWeek", "Annual", "ExternalProgram", "FileExistence","FileSize");
         triggerComboBoxID.setItems(itemsTriggers);
         
         // Viene definita una struttura per contenere i diversi tipi di azioni
@@ -186,6 +190,9 @@ public class FXMLDocumentController implements Initializable {
                 interpreteLabelID.clear();
                 programSelected=null;
                 ProgramButtonID.setVisible(false);
+                textFieldFileSize.setVisible(false);
+                textFieldFileSize.clear();
+                fileToCompare=null;
             } else if(newValue != null && newValue.equals("DayOfMonth")){
                 labelDayOfMonth.setVisible(true);
                 labelOrarioID.clear();
@@ -204,6 +211,9 @@ public class FXMLDocumentController implements Initializable {
                 interpreteLabelID.clear();
                 programSelected=null;
                 ProgramButtonID.setVisible(false);
+                textFieldFileSize.setVisible(false);
+                textFieldFileSize.clear();
+                fileToCompare=null;
             }else if(newValue != null && newValue.equals("DayOfWeek")){
                 labelDayOfWeek.setVisible(true);
                 labelOrarioID.clear();
@@ -221,6 +231,9 @@ public class FXMLDocumentController implements Initializable {
                 interpreteLabelID.setVisible(false);
                 interpreteLabelID.clear();
                 programSelected=null;
+                textFieldFileSize.setVisible(false);
+                textFieldFileSize.clear();
+                fileToCompare=null;                
                 ProgramButtonID.setVisible(false);
             }else if(newValue != null && newValue.equals("Annual")){
                 DatePickerID.setVisible(true);
@@ -239,6 +252,9 @@ public class FXMLDocumentController implements Initializable {
                 interpreteLabelID.setVisible(false);
                 interpreteLabelID.clear();
                 programSelected=null;
+                textFieldFileSize.setVisible(false);
+                textFieldFileSize.clear();
+                fileToCompare=null;
                 ProgramButtonID.setVisible(false);
             }else if(newValue != null && newValue.equals("ExternalProgram")){
                 DatePickerID.setValue(null);
@@ -257,6 +273,9 @@ public class FXMLDocumentController implements Initializable {
                 interpreteLabelID.setVisible(true);
                 ProgramButtonID.setVisible(true);
                 programSelected=null;
+                textFieldFileSize.setVisible(false);
+                textFieldFileSize.clear();
+                fileToCompare=null;
             }else if(newValue != null && newValue.equals("FileExistence")){
                 labelFileExistence.setVisible(true);
                 labelOrarioID.clear();
@@ -272,7 +291,30 @@ public class FXMLDocumentController implements Initializable {
                 interpreteLabelID.setVisible(false);
                 ProgramButtonID.setVisible(false);
                 programSelected=null;
-            }else{
+                textFieldFileSize.setVisible(false);
+                textFieldFileSize.clear();
+                fileToCompare=null;
+            }else if(newValue != null && newValue.equals("FileSize")){
+                DatePickerID.setValue(null);
+                DatePickerID.setVisible(false);
+                labelOrarioID.clear();
+                labelOrarioID.setVisible(false);
+                labelDayOfMonth.clear();
+                labelDayOfMonth.setVisible(false);
+                labelDayOfWeek.clear();
+                labelDayOfWeek.setVisible(false);
+                labelFileExistence.clear();
+                labelFileExistence.setVisible(false);
+                inputExternalProgram.setVisible(false);
+                outputExternalProgram.setVisible(false);
+                ProgramButtonID.setText("Seleziona File");
+                interpreteLabelID.setVisible(false);
+                ProgramButtonID.setVisible(true);
+                programSelected=null;
+                textFieldFileSize.setVisible(true);
+                fileToCompare=null;
+            }
+            else{
                 labelOrarioID.setVisible(false); // Nascondi tutti i textfield
                 labelDayOfMonth.setVisible(false);//nascondi tutti i textfield
                 labelDayOfWeek.setVisible(false);//nascondi tutti i textfield
@@ -282,6 +324,7 @@ public class FXMLDocumentController implements Initializable {
                 outputExternalProgram.setVisible(false);
                 ProgramButtonID.setVisible(false);
                 interpreteLabelID.setVisible(false);
+                textFieldFileSize.setVisible(false);
             }
         });
         
@@ -360,6 +403,7 @@ public class FXMLDocumentController implements Initializable {
         outputExternalProgram.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
         interpreteLabelID.textProperty().addListener((observable,oldvalue,newValue) -> updateStateButton());
         labelFileExistence.textProperty().addListener((observable, oldvalue, newValue) -> updateStateButton());
+        textFieldFileSize.textProperty().addListener((observable, oldvalue, newValue) -> updateStateButton());
         
         // Service
         RuleChecker rc = new RuleChecker(manager.getList(),mainTab);
@@ -422,7 +466,7 @@ public class FXMLDocumentController implements Initializable {
         } else if(selectedProgram!=null){
             audio_path=selectedProgram.getAbsolutePath();
             FileButton.setText(selectedProgram.getName());
-        }
+        } 
         updateStateButton();
     }
 
@@ -461,6 +505,8 @@ public class FXMLDocumentController implements Initializable {
         boolean dayOfYear = isValidYear(DatePickerID.getValue());
         //controllo che il nome del file sia valido
         boolean fileName = isValidName(labelFileExistence.getText());
+        // Controllo sulla size inserita nel textfield
+        boolean stringaDim=isValidDim(textFieldFileSize.getText());
         
         // Controllo sulla presenza del messaggio nel textfield
         boolean messaggioVuoto = labelMessageActionID.getText().isEmpty();
@@ -475,6 +521,7 @@ public class FXMLDocumentController implements Initializable {
         boolean fileProgrammaSelezionato=false;
         boolean directorySelezionata=false;
         boolean fileProgramSelected=false;
+        boolean fileToCompareSelected=false;
         
         // Ottiene il valore dall comboBox 
         String valoreRuleType = RuleTypeID.getValue(); 
@@ -510,8 +557,12 @@ public class FXMLDocumentController implements Initializable {
             fileProgramSelected=true;
         }
         
+        if(fileToCompare!=null){
+            fileToCompareSelected=true;
+        }
+        
         // Attivazione e disattivazione del pulsante !messaggioVuoto || fileSelezionato || (directorySelezionata&&fileSelezionato) || (!writeMessage&&fileSelezionato)
-        if(((fileName || orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid || !interpreteVuoto&&!inputVuoto&&!outputVuoto&&fileProgrammaSelezionato) && (!messaggioVuoto || fileSelezionato || directorySelezionata || !writeMessage&&fileSelezionatoWrite || !programSelect&&fileProgramSelected) 
+        if(((fileName || orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid || (!interpreteVuoto&&!inputVuoto&&!outputVuoto&&fileProgrammaSelezionato) || (fileToCompareSelected&&stringaDim)) && (!messaggioVuoto || fileSelezionato || directorySelezionata || !writeMessage&&fileSelezionatoWrite || !programSelect&&fileProgramSelected) 
                 &&  ruleTypeChecked)==true){
             if(valoreRuleType.equals(SLP)){
                 if(orarioSleepingValido){
@@ -575,6 +626,9 @@ public class FXMLDocumentController implements Initializable {
             stringTrigger=program_path+"//"+interprete+"//"+input+"//"+output;
         }else if(trigger.equals("FileExistence")){
             stringTrigger=labelFileExistence.getText();
+        }else if(trigger.equals("FileSize")){
+            String size = textFieldFileSize.getText();
+            stringTrigger=pathFileToCompare+"//"+size;
         }
         
         //prende il valore activity type e lo strasforma in enum
@@ -666,6 +720,11 @@ public class FXMLDocumentController implements Initializable {
         interpreteLabelID.setVisible(false);
         interpreteLabelID.clear();
         ProgramButtonID.setVisible(false);
+        textFieldFileSize.clear();
+        fileToCompare=null;
+        textFieldFileSize.setVisible(false);
+        labelFileExistence.clear();
+        labelFileExistence.setVisible(false);
         
         SleepingID.clear();
     }
@@ -710,6 +769,13 @@ public class FXMLDocumentController implements Initializable {
         
         if(triggerComboBoxID.getValue().equals("ExternalProgram")){
             programSelected=fileChooser.showOpenDialog(stage);
+        }else if(triggerComboBoxID.getValue().equals("FileSize")){
+            fileToCompare=fileChooser.showOpenDialog(stage);
+        }
+        
+        if(fileToCompare!=null){
+            pathFileToCompare=fileToCompare.getAbsolutePath();
+            ProgramButtonID.setText(fileToCompare.getName());
         }
         
         if(programSelected!=null){
@@ -728,4 +794,14 @@ public class FXMLDocumentController implements Initializable {
         return matcher.matches();
     }
     
+    private static boolean isValidDim(String inputString) {
+        try {
+            // Prova a convertire la stringa in un numero a virgola mobile
+            double doubleValue = Double.parseDouble(inputString);
+            return true;
+        } catch (NumberFormatException e) {
+            // Se la conversione fallisce, la stringa non è un numero
+            return false;
+        }
+    }
 }
