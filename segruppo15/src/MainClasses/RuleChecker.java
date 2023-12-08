@@ -35,7 +35,10 @@ public class RuleChecker extends ScheduledService implements Serializable{
     public void updateList(ObservableList<Rule> l) {
         this.ruleList = l;
     }
-
+    
+    public ObservableList getList(){
+        return this.ruleList;
+    }
     // TASK. Needs to be with setperiod() and start()
     @Override
     protected Task createTask() {

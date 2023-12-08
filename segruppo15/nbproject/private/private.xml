@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/test/Actions/ExternalProgramActionTest.java</file>
-            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/src/segruppo15/FXMLDocumentController.java</file>
-            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/test/Triggers/ExternalProgramTriggerTest.java</file>
-            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/src/Triggers/TriggerFactory.java</file>
+            <file>file:/C:/Users/zappu/Desktop/ProgettoSE/segruppo15/test/MainClasses/FileDirectorTest.java</file>
+            <file>file:/C:/Users/zappu/Desktop/ProgettoSE/segruppo15/test/MainClasses/RuleCheckerTest.java</file>
+            <file>file:/C:/Users/zappu/Desktop/ProgettoSE/segruppo15/src/MainClasses/Rule.java</file>
+            <file>file:/C:/Users/zappu/Desktop/ProgettoSE/segruppo15/src/segruppo15/Segruppo15.java</file>
+            <file>file:/C:/Users/zappu/Desktop/ProgettoSE/segruppo15/src/MainClasses/RuleChecker.java</file>
+            <file>file:/C:/Users/zappu/Desktop/ProgettoSE/segruppo15/test/Triggers/TriggerAnnualTest.java</file>
         </group>
     </open-files>
 </project-private>

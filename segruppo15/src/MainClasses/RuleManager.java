@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
  * Class that holds all methods to work with Rules
  * @author Marco
  */
+
 public class RuleManager implements Serializable{
     private static RuleManager instance;
     private ObservableList<Rule> ruleList;
