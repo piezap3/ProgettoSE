@@ -61,7 +61,6 @@ public class ExternalProgramTrigger implements Trigger{
                 
                 if(outputProgram.equals(output)){
                     confronto = true;
-                    System.out.println("Entrato");
                 }
                 // Attendere che il processo termini
                 int exitCode = process.waitFor();

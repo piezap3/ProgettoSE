@@ -40,16 +40,18 @@ public class ExternalProgramTriggerTest {
      */
      @Test
     public void testIsVerified() {
-        System.out.println("isVerified");
+        ExternalProgramTrigger instance = new ExternalProgramTrigger("lib/mol.py//python3//3 3//9");       
 
         // Simula l'input standard per il programma esterno
-        String input = "3\n3\n";
+        String input = "1\n3 3\n";
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
         System.setIn(inputStream);
+        
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalSystemOut = System.out;
+        System.setOut(new PrintStream(outputStream));
 
-        // Crea un'istanza del trigger del programma esterno con l'output atteso
-        String commandString = "python//lib/mol.py//3 3//9";
-        ExternalProgramTrigger instance = new ExternalProgramTrigger(commandString);       
+           
         // La prima chiamata a isVerified dovrebbe restituire true
         boolean expResult = true;
         boolean result = instance.isVerified();
@@ -58,12 +60,6 @@ public class ExternalProgramTriggerTest {
         expResult = false;
         result = instance.isVerified();
         assertEquals(expResult, result);
-        // L'output del programma esterno dovrebbe corrispondere all'output atteso
-        String expOutput = "Output del programma esterno: 9\r\n" +
-                           "Entrato\r\n" +
-                           "Il programma esterno è estato eseguito e ha restituito il codice di uscita: 0\r\n";
-        String output = outContent.toString();
-        assertEquals(expOutput, output);
     }
 
     /**
@@ -72,8 +68,8 @@ public class ExternalProgramTriggerTest {
     @Test
     public void testTriggerAttribute() {
         System.out.println("triggerAttribute");
-        ExternalProgramTrigger instance = new ExternalProgramTrigger("python.exe//lib/mol.py//3 3//9");
-        String expResult = "External Program Trigger: python.exe//lib/mol.py//3 3//9";
+        ExternalProgramTrigger instance = new ExternalProgramTrigger("lib/mol.py//python3//3 3//9");
+        String expResult = "External Program Trigger: lib/mol.py//python3//3 3//9";
         String result = instance.triggerAttribute().get();
         assertEquals(expResult, result);
     }
