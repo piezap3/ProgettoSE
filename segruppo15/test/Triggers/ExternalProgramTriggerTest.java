@@ -6,6 +6,7 @@ package Triggers;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
@@ -14,13 +15,11 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author andrea
+ * @author mattiiaaa
  */
 public class ExternalProgramTriggerTest {
     
-    // Creo un oggetto per catturare l'output del sistema
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    // Salvo l'output originale del sistema
     private final PrintStream originalOut = System.out;
     
     public ExternalProgramTriggerTest() {
@@ -28,47 +27,54 @@ public class ExternalProgramTriggerTest {
     
     @Before
     public void setUp() {
-        // Imposto l'output del sistema sul mio oggetto
         System.setOut(new PrintStream(outContent));
     }
     
     @After
     public void tearDown() {
-        // Ripristino l'output originale del sistema
         System.setOut(originalOut);
     }
 
     /**
-     * Test del metodo isVerified, della classe ExternalProgramTrigger.
+     * Test of isVerified method, of class ExternalProgramTrigger.
      */
-    @Test
+     @Test
     public void testIsVerified() {
         System.out.println("isVerified");
-        // Simulo l'input e l'output del programma esterno
-        String program = "C:\\Users\\tti_a\\Desktop\\test.py//python//1 2//3";
-        ByteArrayInputStream in = new ByteArrayInputStream("3".getBytes());
-        System.setIn(in);
-        ExternalProgramTrigger instance = new ExternalProgramTrigger(program);
+
+        // Simula l'input standard per il programma esterno
+        String input = "3\n3\n";
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStream);
+
+        // Crea un'istanza del trigger del programma esterno con l'output atteso
+        String commandString = "python//lib/mol.py//3 3//9";
+        ExternalProgramTrigger instance = new ExternalProgramTrigger(commandString);       
+        // La prima chiamata a isVerified dovrebbe restituire true
         boolean expResult = true;
         boolean result = instance.isVerified();
-        // Verifico che il risultato sia uguale a quello atteso
         assertEquals(expResult, result);
-        //Verifico che l'output del programma esterno sia uguale a quello atteso
-        String expectedOutput = "Output del programma esterno: 3\r\n" + "Entrato\r\n" + "Il programma esterno è estato eseguito e ha restituito il codice di uscita: 0\r\n";
-        assertEquals(expectedOutput, outContent.toString());
+        // La seconda chiamata a isVerified dovrebbe restituire false
+        expResult = false;
+        result = instance.isVerified();
+        assertEquals(expResult, result);
+        // L'output del programma esterno dovrebbe corrispondere all'output atteso
+        String expOutput = "Output del programma esterno: 9\r\n" +
+                           "Entrato\r\n" +
+                           "Il programma esterno è estato eseguito e ha restituito il codice di uscita: 0\r\n";
+        String output = outContent.toString();
+        assertEquals(expOutput, output);
     }
 
     /**
-     * Test del metodo triggerAttribute, della classe ExternalProgramTrigger.
+     * Test of triggerAttribute method, of class ExternalProgramTrigger.
      */
     @Test
     public void testTriggerAttribute() {
         System.out.println("triggerAttribute");
-        String program = "C:\\Users\\tti_a\\Desktop\\test.py//python//1 2//3";
-        ExternalProgramTrigger instance = new ExternalProgramTrigger(program);
-        String expResult = "External Program Trigger: C:\\Users\\tti_a\\Desktop\\test.py//python//1 2//3";
+        ExternalProgramTrigger instance = new ExternalProgramTrigger("python.exe//lib/mol.py//3 3//9");
+        String expResult = "External Program Trigger: python.exe//lib/mol.py//3 3//9";
         String result = instance.triggerAttribute().get();
-        // Verifico che il risultato sia uguale a quello atteso
         assertEquals(expResult, result);
     }
     

@@ -75,9 +75,9 @@ public class TriggerFileExistenceTest {
     public void testTriggerAttribute() {
         System.out.println("triggerAttribute");
         // Crea un'istanza di TriggerFileExistence con un nome di file arbitrario
-        TriggerFileExistence instance = new TriggerFileExistence("a.txt");
+        TriggerFileExistence instance = new TriggerFileExistence("test.txt");
         // Verifica che il triggerAttribute restituisca la stringa corretta
-        StringProperty expResult = new SimpleStringProperty("file existence trigger: a.txt");
+        StringProperty expResult = new SimpleStringProperty("file existence trigger: test.txt");
         StringProperty result = instance.triggerAttribute();
         assertEquals(expResult.get(), result.get());
     }

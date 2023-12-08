@@ -74,17 +74,23 @@ public class TriggerFactoryTest {
         assertEquals(expResult.triggerAttribute().toString(), result.triggerAttribute().toString());
         
         type = "ExternalProgram";
-        time = "C://test.py//python//2 3//5";
+        time = "lib//test.py//python//2 3//5";
         expResult = new ExternalProgramTrigger(time);
         result = TriggerFactory.getTrigger(type, time);
         assertEquals(expResult.getClass(), result.getClass());
         assertEquals(expResult.triggerAttribute().toString(), result.triggerAttribute().toString());
         
         type = "FileExistence";
-        time = "C://test.txt";
+        time = "lib//test.txt";
         expResult = new TriggerFileExistence(time);
         result = TriggerFactory.getTrigger(type, time);
         assertEquals(expResult.getClass(), result.getClass());
+        assertEquals(expResult.triggerAttribute().toString(), result.triggerAttribute().toString());
+        
+        type = "FileSize";
+        time = "lib\\test.txt//100";
+        expResult = new TriggerFileSize(time);
+        result = TriggerFactory.getTrigger(type, time);
         assertEquals(expResult.triggerAttribute().toString(), result.triggerAttribute().toString());
         
         // Testa la creazione di un trigger con un tipo non valido

@@ -20,7 +20,7 @@ public class TriggerFileSizeTest {
     
     @Before
     public void setUp() {
-        triggerFileSize = new TriggerFileSize("C:\\Users\\zappu\\Desktop\\car1\\file.txt//1000");
+        triggerFileSize = new TriggerFileSize("lib\\file.txt//1000");
     }
     
     @Test
@@ -30,8 +30,11 @@ public class TriggerFileSizeTest {
     
     @Test
     public void testTriggerAttribute() {
-        StringProperty expected = new SimpleStringProperty("Size of:file < 1000 byte");
-        assertEquals(expected, triggerFileSize.triggerAttribute());
+        System.out.println("triggerAttribute");
+        // the trigger attribute should be a string property with the file name and size condition
+        String expResult = "Size of:" + "file.txt" + " < 1000 byte";
+        String result = triggerFileSize.triggerAttribute().get();
+        assertEquals(expResult, result);
     }
     
 }
