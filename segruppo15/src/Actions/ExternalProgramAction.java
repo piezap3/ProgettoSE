@@ -68,8 +68,9 @@ public class ExternalProgramAction implements Action, Serializable{
             // Gestisci lo standard output del processo Python
             BufferedReader outputReader = new BufferedReader(new InputStreamReader(processo.getInputStream()));
             String outputLine;
+            System.out.println("Output del programma esterno: ");
             while ((outputLine = outputReader.readLine()) != null) {
-                System.out.println("Output del programma esterno: " + outputLine);
+                System.out.println(outputLine);
             }
             
             // Attendere che il processo termini

@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/tti_a/Documents/NetBeansProjects/segruppo15/segruppo15/src/Actions/ActionFactory.java</file>
-            <file>file:/C:/Users/tti_a/Documents/NetBeansProjects/segruppo15/segruppo15/src/Actions/AudioAction.java</file>
-            <file>file:/C:/Users/tti_a/Documents/NetBeansProjects/segruppo15/segruppo15/src/MainClasses/Rule.java</file>
-            <file>file:/C:/Users/tti_a/Documents/NetBeansProjects/segruppo15/segruppo15/src/segruppo15/FXMLDocumentController.java</file>
+            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/test/Actions/ExternalProgramActionTest.java</file>
+            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/src/segruppo15/FXMLDocumentController.java</file>
+            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/test/Triggers/ExternalProgramTriggerTest.java</file>
+            <file>file:/Users/andrea/Desktop/SE/progetto/segruppo15/src/Triggers/TriggerFactory.java</file>
         </group>
     </open-files>
 </project-private>

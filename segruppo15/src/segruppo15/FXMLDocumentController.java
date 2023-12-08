@@ -441,8 +441,6 @@ public class FXMLDocumentController implements Initializable {
             selectedFileWrite=fileChooser.showOpenDialog(stage);
         }if(actionsComboBoxID.getValue().equals("ExternalProgram")){
             selectedProgram=fileChooser.showOpenDialog(stage);
-        }else{
-            selectedFile = fileChooser.showOpenDialog(stage);
         }
         
         //mostro il dialogo di selezione cartella e ottengo la directory di destinazione
