@@ -48,6 +48,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 /**
@@ -80,6 +81,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField labelFileExistence;
     @FXML
     private TextField textFieldFileSize;
+    @FXML
+    private VBox MultiActionVBox;
     
     
     
@@ -148,6 +151,7 @@ public class FXMLDocumentController implements Initializable {
     private File directoryDestinazione=null;
     private RuleManager manager = RuleManager.getInstance();//new RuleManager();RuleManager.getInstance();
     RuleChecker RuleChecker = new RuleChecker(manager.getList(),mainTab);
+    private MultiAction multiAc;
      
     
     @Override
@@ -157,7 +161,7 @@ public class FXMLDocumentController implements Initializable {
         triggerComboBoxID.setItems(itemsTriggers);
         
         // Viene definita una struttura per contenere i diversi tipi di azioni
-        ObservableList<String> itemsActions = FXCollections.observableArrayList("Audio", "Message", "Delete File", "MoveFile", "CopyFile", "WriteOnFile","ExternalProgram");
+        ObservableList<String> itemsActions = FXCollections.observableArrayList("MultiAction","Audio", "Message", "Delete File", "MoveFile", "CopyFile", "WriteOnFile","ExternalProgram");
         actionsComboBoxID.setItems(itemsActions);
         
         // Viene definita una struttura per contenere i tre comportamenti delle regole
@@ -343,6 +347,7 @@ public class FXMLDocumentController implements Initializable {
                 selectedFileWrite=null;
                 selectedProgram=null;
                 labelMessageActionID.clear();
+                MultiActionVBox.getChildren().clear();
             } else if(newValue != null && newValue.equals("WriteOnFile")){
                 FileButton.setText("Seleziona File");
                 FileButton.setVisible(true);
@@ -355,6 +360,7 @@ public class FXMLDocumentController implements Initializable {
                 selectedFileWrite=null;
                 selectedProgram=null;
                 labelMessageActionID.clear();
+                MultiActionVBox.getChildren().clear();
             }else if(newValue != null && newValue.equals("Message")){
                 labelMessageActionID.setVisible(true);
                 FileButton.setVisible(false);
@@ -365,6 +371,7 @@ public class FXMLDocumentController implements Initializable {
                 directoryDestinazione=null;
                 selectedFileWrite=null;
                 selectedProgram=null;
+                MultiActionVBox.getChildren().clear();
             }else if(newValue != null && newValue.equals("ExternalProgram")){
                 FileButton.setText("Seleziona File");
                 FileButton.setVisible(true);
@@ -376,6 +383,20 @@ public class FXMLDocumentController implements Initializable {
                 directoryDestinazione=null;
                 selectedFileWrite=null;
                 selectedProgram=null;
+                MultiActionVBox.getChildren().clear();
+            } else if(newValue != null && newValue.equals("MultiAction")) { //MULTIACTION SECTION
+                labelMessageActionID.setVisible(false);
+                FileButton.setVisible(false);
+                labelWriteMessage.setVisible(false);
+                commandProgramID.setVisible(false);
+                CreaRegolaID.setDisable(true); 
+                selectedFile=null;
+                directoryDestinazione=null;
+                selectedFileWrite=null;
+                selectedProgram=null;
+                MultiActionVBox.setSpacing(10);
+                multiAc = new MultiAction();
+                multiAc.initNewAction(MultiActionVBox,itemsActions);
             }
         });
         
@@ -536,6 +557,11 @@ public class FXMLDocumentController implements Initializable {
         // Controllo sulla combobox per veder se è stato selezionato un valore
         boolean ruleTypeChecked = valoreRuleType!=null;
         
+        // Controllo MultiAction
+        boolean isMultiActionValid = false;
+        if (actionsComboBoxID.getValue()!=null && actionsComboBoxID.getValue().equals("MultiAction"))
+            isMultiActionValid = multiAc.isValid();
+        
         // Controllo se il file è stato selezionato
         if(selectedFile!=null){
             fileSelezionato=true;
@@ -560,7 +586,9 @@ public class FXMLDocumentController implements Initializable {
         }
         
         // Attivazione e disattivazione del pulsante !messaggioVuoto || fileSelezionato || (directorySelezionata&&fileSelezionato) || (!writeMessage&&fileSelezionato)
-        if(((fileName || orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid || (!interpreteVuoto&&!inputVuoto&&!outputVuoto&&fileProgrammaSelezionato) || (fileToCompareSelected&&stringaDim)) && (!messaggioVuoto || fileSelezionato || directorySelezionata || !writeMessage&&fileSelezionatoWrite || !programSelect&&fileProgramSelected) 
+        if(((fileName || orarioValido || dayOfYear || dayOfWeekValid || dayOfMonthValid || (!interpreteVuoto&&!inputVuoto&&!outputVuoto&&fileProgrammaSelezionato) ||
+                (fileToCompareSelected&&stringaDim)) && (!messaggioVuoto || fileSelezionato || directorySelezionata ||
+                !writeMessage&&fileSelezionatoWrite || !programSelect&&fileProgramSelected || isMultiActionValid) 
                 &&  ruleTypeChecked)==true){
             if(valoreRuleType.equals(SLP)){
                 if(orarioSleepingValido){
@@ -635,7 +663,9 @@ public class FXMLDocumentController implements Initializable {
         
         //trigger and action creation
         Trigger t=TriggerFactory.getTrigger(trigger, stringTrigger);
-        Action a=ActionFactory.create(action, stringaAction);
+        Action a;
+        if (actionsComboBoxID.getValue().equals("MultiAction")) a = multiAc;
+        else a = ActionFactory.create(action, stringaAction);
         
         
         //rule creation

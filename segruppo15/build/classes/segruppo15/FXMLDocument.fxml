@@ -20,7 +20,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="segruppo15.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="segruppo15.FXMLDocumentController">
    <children>
    <VBox fx:id="PrimaryVBox" prefHeight="600.0" prefWidth="900.0">
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
@@ -71,7 +71,7 @@
             <Font size="11.0" fx:id="x3" />
           </font>
           <textFill>
-            <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+            <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
           </textFill>
         </Label>
         <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
@@ -110,6 +110,7 @@
                         <AnchorPane prefHeight="200.0" prefWidth="350.0">
                            <children>
                               <ComboBox fx:id="actionsComboBoxID" layoutX="14.0" layoutY="26.0" prefHeight="25.0" prefWidth="124.0" promptText="Actions" />
+                              <VBox fx:id="MultiActionVBox" layoutX="18.0" layoutY="59.0" prefHeight="240.0" prefWidth="280.0" />
                               <Button fx:id="FileButton" layoutX="150.0" layoutY="26.0" mnemonicParsing="false" onAction="#SelectFile" prefHeight="25.0" prefWidth="136.0" text="Selezione File " visible="false" />
                               <TextField fx:id="labelMessageActionID" layoutX="150.0" layoutY="26.0" prefHeight="25.0" prefWidth="136.0" visible="false" />
                               <TextField fx:id="labelWriteMessage" layoutX="150.0" layoutY="65.0" prefHeight="25.0" prefWidth="136.0" visible="false" />
