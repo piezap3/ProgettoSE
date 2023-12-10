@@ -17,11 +17,18 @@ public class TriggerFileSize implements Trigger {
     private double size;
     private boolean onceTrigg = false;
     
+    /**
+     * Constructor
+     * @param fileAndSize String with file path 
+     */
     public TriggerFileSize(String fileAndSize) {
         this.fileAndSize=fileAndSize;
     }
     
-    
+    /**
+     * isVerified method for triggerFileSize
+     * @return 
+     */
     @Override
     public boolean isVerified() {
         String str[] = this.fileAndSize.split("//");

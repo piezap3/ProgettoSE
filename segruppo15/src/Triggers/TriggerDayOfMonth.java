@@ -18,10 +18,18 @@ public class TriggerDayOfMonth implements Trigger, Serializable{
     private int i=0;
     private int month=LocalDate.now().getMonthValue();
     
+    /**
+     * Constructor
+     * @param t String with day of the month 
+     */
     public TriggerDayOfMonth(String t){
         this.dayOfMonth = Integer.parseInt(t); //from string to int
     }
 
+    /**
+     * isVerified method for triggerDayOfMonth
+     * @return 
+     */
     @Override
     public boolean isVerified() {
         LocalDate currentDate = LocalDate.now();

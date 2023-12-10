@@ -21,12 +21,19 @@ import javafx.beans.property.StringProperty;
 public class ExternalProgramTrigger implements Trigger{
     private String program;
     private Boolean active=true;//booleano per far attivare una sola volta il trigger in quel giorno dell'anno
-
+    
+    /**
+     * Constructor
+     * @param program String with program path 
+     */
     public ExternalProgramTrigger(String program) {
         this.program = program;
     }
     
-
+    /**
+     * isVerified method for externalProgramTrigger
+     * @return 
+     */
     @Override
     public boolean isVerified() {
         

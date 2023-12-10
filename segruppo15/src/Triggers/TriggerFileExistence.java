@@ -22,10 +22,18 @@ public class TriggerFileExistence implements Trigger, Serializable{
     private String fileName;
     private boolean controll=false;
     
+    /**
+     * Constructor
+     * @param t string with file path
+     */
     public TriggerFileExistence(String t){
         this.fileName=t;
     }
     
+    /**
+     * isVerified method for triggerFileExistence
+     * @return 
+     */
     @Override
     public boolean isVerified() {
         //prendo il percorso del desktop e lo converto in path

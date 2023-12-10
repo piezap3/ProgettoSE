@@ -15,22 +15,21 @@ import javax.swing.JOptionPane;
  *
  * @author tti_a
  * 
- * 
- * classe creata;
- * cambaire la factory; cambaire il contorller per l'aggiunta di questa azione;
- * cambiare combobox con l'aggiunta di questa azione (nell'initialize)
- * cambiare la funzione creaaddrule nel controller
- * cambiare scene builder per aggiunta del pulsante?
- * 
  */
 public class DeleteFileFromDirectoryAction implements Action, Serializable{
     private String filePath;
 
+    /**
+     * Constructor
+     * @param filePath string with the file path
+     */
     public DeleteFileFromDirectoryAction(String filePath) {
         this.filePath = filePath;
     }
     
-    
+    /**
+     * execution of the deleteAction
+     */
     @Override
     public void exec() {
         File fileToDelete=new File(this.filePath);

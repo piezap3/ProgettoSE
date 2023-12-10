@@ -8,22 +8,33 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 /**
+ * Represents the sleeping state of a rule.
  *
  * @author tti_a
  */
 public class StateSleepingState implements RuleState, Serializable{
     private Rule rule;
 
+    /**
+     * Constructor for the StateSleepingState class.
+     *
+     * @param rule the rule associated with this sleeping state.
+     */
     public StateSleepingState(Rule rule) {
         this.rule = rule;
     }
     
-    
+    /**
+     * In this state, the rule is not eligible for updates, so the method is empty.
+     */
     @Override
     public void fire() {
         //
     }
-
+    
+    /**
+     * Checks if the rule should transition to the active state based on the sleep time.
+     */
     @Override
     public void update() {
         // Ottiene l'ora dell'ultima esecuzione della regola

@@ -11,17 +11,25 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 /**
+ * Represents the active state of a rule.
  *
  * @author tti_a
  */
 public class StateActiveRule implements RuleState, Serializable{
     private Rule rule;
 
+    /**
+     * Constructor for the StateActiveRule class.
+     *
+     * @param rule the rule associated with this active state.
+     */
     public StateActiveRule(Rule rule) {
         this.rule = rule;
     }
     
-    
+    /**
+     * Executes the current rule by performing 
+     */
     @Override
     public void fire() {
         if(rule.getTrigger().isVerified()){
@@ -45,7 +53,10 @@ public class StateActiveRule implements RuleState, Serializable{
         
        }
     }
-
+    
+    /**
+     * In this state, the rule is not eligible for updates, so the method is empty.
+     */
     @Override
     public void update() {
         //

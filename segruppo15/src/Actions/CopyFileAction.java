@@ -22,13 +22,17 @@ import javax.swing.JOptionPane;
  */
 public class CopyFileAction implements Action, Serializable {
     private String filePath12;
-
+    
+    /**
+     * Constructor
+     * @param filePath string with the file and folder path
+     */
     public CopyFileAction(String filePath12) {
         this.filePath12=filePath12;
     }
     
     /**
-     *
+     * execution of copyfileAction
      * @throws IOException
      */
     @Override

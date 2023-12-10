@@ -27,6 +27,10 @@ public class TriggerTimeOfDay implements Trigger, Serializable{
         this.time=tim;
     }
     
+    /**
+     * isVerified method for triggerTimeOfDay
+     * @return 
+     */
     @Override
     public boolean isVerified() {
         LocalTime currentTime = LocalTime.now();

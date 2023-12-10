@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  * Write on file actions. Adds a String at the end of a specified text file
- * @author Marco
+ * @author mattiiaaa
  */
 public class WriteOnFileAction implements Action, Serializable{
     private String filePathAndStringToAppend; // Stringa contente la stringa da scrivere sul file concatenata al path del file stesso
@@ -35,7 +35,10 @@ public class WriteOnFileAction implements Action, Serializable{
         p = new SimpleStringProperty("Write: "+divStr[1]+" On File: "+divStr[0]);
         return p;
     }
-
+    
+    /**
+     * execution of the writeOnfileAction
+     */
     @Override
     public void exec() {
         // Divisione della stringa passata in input all'azione

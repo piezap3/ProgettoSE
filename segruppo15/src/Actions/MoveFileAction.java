@@ -28,7 +28,7 @@ public class MoveFileAction implements Action, Serializable{
     }
     
     /**
-     *
+     * execution of the movieFileAction
      * @throws IOException
      */
     @Override

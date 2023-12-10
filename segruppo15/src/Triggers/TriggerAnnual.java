@@ -17,7 +17,11 @@ public class TriggerAnnual implements Trigger {
     private LocalDate date;
     private LocalDate lastVerified; // aggiungo questo attributo per memorizzare l'ultimo giorno in cui il trigger è stato verificato
     private Boolean active=true;//booleano per far attivare una sola volta il trigger in quel giorno dell'anno
-
+    
+    /**
+     * Constructor
+     * @param t String with date
+     */
     public TriggerAnnual(String t) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         
@@ -26,7 +30,10 @@ public class TriggerAnnual implements Trigger {
         this.lastVerified = LocalDate.MIN; // inizializzo questo attributo con una data minima
     }
 
-    
+    /**
+     * isVerified method for triggerAnnual
+     * @return 
+     */
     @Override
     public boolean isVerified() {
         int year = date.getYear();

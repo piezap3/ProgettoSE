@@ -18,11 +18,19 @@ import javafx.beans.property.StringProperty;
 public class TriggerDayOfTheWeek implements Trigger, Serializable{
     private String day;
     private Boolean active=true; //booleano per far attivare una sola volta il trigger in quel giorno della settimana
-
+    
+    /**
+     * Constructor
+     * @param day String with day of the week 
+     */
     public TriggerDayOfTheWeek(String day) {
         this.day = day;
     }
 
+    /**
+     * isVerified method for triggerDayOfTheWeek
+     * @return 
+     */
     @Override
     public boolean isVerified() {
         String dayString = LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);

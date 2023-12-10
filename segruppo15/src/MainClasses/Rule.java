@@ -49,19 +49,34 @@ public class Rule implements Serializable{
     public EnumActivityType getActivityType() {
         return this.activityType;
     }
-    
+    /**
+     * Method to set the last fired of the rule 
+     * @param lastFired
+     */
     public void setLastFired(LocalTime lastFired) {
         this.lastFired = lastFired;
     }
-
+    
+    /**
+     * Method to get the last fired of the rule
+     * @return LocalTime lastFired
+     */
     public LocalTime getLastFired() {
         return lastFired;
     }
     
+    /**
+     * Method to set the state of the rule 
+     * @param state
+     */
     public void setState(RuleState state) {
         this.state = state;
     }
-
+    
+    /**
+     * Method to get the state of the rule
+     * @return RuleState state
+     */
     public RuleState getState() {
         return state;
     }
@@ -111,21 +126,7 @@ public class Rule implements Serializable{
     public void fire() {
         state.fire();
     }
-    /**
-     * Method that fires rule if:
-     *  - rule is active
-     *  - trigger is verified
-     */
-//    public void checkAndRun() {
-//        
-//        this.updateSleep();
-//        if (this.isActive()){
-//            if (this.verTrigger()) {
-//                // Run rule
-//                this.fire();
-//            }
-//        }
-//    }
+    
     /**
      * Method to get name of rule
      * @return name string

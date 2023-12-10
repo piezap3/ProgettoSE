@@ -32,8 +32,6 @@ import javafx.stage.Stage;
 import Actions.*;
 import MainClasses.FileDirector;
 import MainClasses.RuleChecker;
-import MainClasses.StateActiveRule;
-import MainClasses.StateDeactiveRule;
 import Triggers.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
