@@ -33,7 +33,6 @@ public class StateActiveRule implements RuleState, Serializable{
     @Override
     public void fire() {
         if(rule.getTrigger().isVerified()){
-        System.out.println("eseguo la multiaction"+rule.getAction());
         rule.getAction().exec();
         
         rule.setLastFired(LocalTime.now());
