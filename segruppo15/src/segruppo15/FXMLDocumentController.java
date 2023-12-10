@@ -74,14 +74,6 @@ public class FXMLDocumentController implements Initializable {
     private TextField textFieldFileSize;
     @FXML
     private VBox MultiActionVBox;
-    
-    
-    
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-    
     @FXML
     private ComboBox<String> triggerComboBoxID;
     @FXML
@@ -93,7 +85,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField labelMessageActionID;
     private Stage stage;
-    private TextField FilePathTextField;
     @FXML
     private Button CreaRegolaID;
     @FXML
@@ -130,7 +121,11 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem openFileID;
     @FXML
     private MenuItem saveFileID;
-    
+        
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+   
     private File selectedFile;
     private File selectedFileWrite;
     private File programSelected;

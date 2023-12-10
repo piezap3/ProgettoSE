@@ -43,6 +43,7 @@ public class RuleManager implements Serializable{
     public void add(Rule r) {
         this.ruleList.add(r);
     }
+    
     /**
      * Method to remove a specific Rule from the list
      * @param r 
@@ -50,6 +51,7 @@ public class RuleManager implements Serializable{
     public void remove(Rule r) {
         this.ruleList.remove(r);
     }
+    
     /**
      * Method to activate a Rule
      * @param r 
@@ -58,6 +60,7 @@ public class RuleManager implements Serializable{
         int index = this.ruleList.indexOf(r);
         this.ruleList.get(index).setState(new StateActiveRule(r));
     }
+    
     /**
      * Method to deactivate a Rule
      * @param r 
@@ -66,6 +69,7 @@ public class RuleManager implements Serializable{
         int index = this.ruleList.indexOf(r);
         this.ruleList.get(index).setState(new StateDeactiveRule(r));
     }
+    
     /**
      * Method to get list of rules
      * @return List of Rule

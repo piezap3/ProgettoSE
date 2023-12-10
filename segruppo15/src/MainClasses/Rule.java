@@ -110,10 +110,18 @@ public class Rule implements Serializable{
     public void setSleepTime(String st) {
         this.sleepTime = sleepConverter(st);
     }
+    
+    /**
+    * Converts a string representation of sleep time into a LocalTime object.
+    *
+    * @param sleepTime a string representing sleep time in "HH:mm:ss" format.
+    * @return the LocalTime representation of the input sleep time.
+    */
     public final LocalTime sleepConverter(String sleepTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return LocalTime.parse(sleepTime,formatter);
     }
+    
     /**
      * Method to check if rule should be sleeping or not
      */
