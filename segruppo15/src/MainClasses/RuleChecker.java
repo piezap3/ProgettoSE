@@ -17,15 +17,13 @@ import javafx.scene.control.TableView;
  */
 public class RuleChecker extends ScheduledService implements Serializable{
     private ObservableList<Rule> ruleList;
-    TableView<Rule> tab;
     /**
      * Constructor
      * @param l list of type ObservableList of Rule
      * @param tab TableView of JavaFX
      */
-    public RuleChecker(ObservableList<Rule> l,TableView<Rule> tab) {
+    public RuleChecker(ObservableList<Rule> l) {
         this.ruleList = l;
-        this.tab = tab;
     }
     
     /**
@@ -48,7 +46,6 @@ public class RuleChecker extends ScheduledService implements Serializable{
                 for (Rule r : ruleList) {
                     r.checkAndRun();
                 }
-                tab.refresh();
                 return null;
             }   
         };

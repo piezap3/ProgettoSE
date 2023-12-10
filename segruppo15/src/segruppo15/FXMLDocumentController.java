@@ -38,6 +38,7 @@ import javafx.stage.Stage;
 import Actions.*;
 import MainClasses.FileDirector;
 import MainClasses.RuleChecker;
+import MainClasses.TableObserver;
 import Triggers.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -150,7 +151,7 @@ public class FXMLDocumentController implements Initializable {
     private String pathFileToCompare;
     private File directoryDestinazione=null;
     private RuleManager manager = RuleManager.getInstance();//new RuleManager();RuleManager.getInstance();
-    RuleChecker RuleChecker = new RuleChecker(manager.getList(),mainTab);
+    RuleChecker RuleChecker = new RuleChecker(manager.getList());
     private MultiAction multiAc;
      
     
@@ -427,13 +428,17 @@ public class FXMLDocumentController implements Initializable {
         textFieldFileSize.textProperty().addListener((observable, oldvalue, newValue) -> updateStateButton());
         
         // Service
-        RuleChecker rc = new RuleChecker(manager.getList(),mainTab);
+        RuleChecker rc = new RuleChecker(manager.getList());
         rc.setPeriod(Duration.seconds(5));
         rc.start();
         RuleChecker = rc;
         
         // LoadFile
         loadFile(null);
+        
+        //Iscrivo la tabella alle regole caricate dal file
+        for(Rule r : RuleManager.getInstance().getList())
+            r.subscribeObserver(new TableObserver(mainTab));
         
         //fa si che nel datepicker sia impossibile selezionare date precedenti a quella attuale
         DatePickerID.setDayCellFactory(picker -> new DateCell() {
@@ -460,9 +465,10 @@ public class FXMLDocumentController implements Initializable {
         // Mostra il dialogo di selezione file e ottieni il file selezionato
         if(actionsComboBoxID.getValue().equals("WriteOnFile")){
             selectedFileWrite=fileChooser.showOpenDialog(stage);
-        }if(actionsComboBoxID.getValue().equals("ExternalProgram")){
+        }else if(actionsComboBoxID.getValue().equals("ExternalProgram")){
             selectedProgram=fileChooser.showOpenDialog(stage);
-        }
+        }else
+            selectedFile=fileChooser.showOpenDialog(stage);
         
         //mostro il dialogo di selezione cartella e ottengo la directory di destinazione
         if(actionsComboBoxID.getValue().equals("MoveFile") || actionsComboBoxID.getValue().equals("CopyFile")){
@@ -680,6 +686,8 @@ public class FXMLDocumentController implements Initializable {
         //click bottone
         creaRegola(event);
         
+        for(Rule rule : RuleManager.getInstance().getList())
+            rule.subscribeObserver(new TableObserver(mainTab));
     }
     
     private void setTabColumns() {
@@ -698,7 +706,6 @@ public class FXMLDocumentController implements Initializable {
         Rule r = mainTab.getSelectionModel().getSelectedItem();
         if (r == null) return;  // Return if rule isn't selected
         manager.activate(r);
-        mainTab.refresh();
     }
     
     @FXML
@@ -706,7 +713,6 @@ public class FXMLDocumentController implements Initializable {
         Rule r = mainTab.getSelectionModel().getSelectedItem();
         if (r == null) return;  // Return if rule isn't selected
         manager.deactivate(r);
-        mainTab.refresh();
     }
     
     @FXML
@@ -714,7 +720,6 @@ public class FXMLDocumentController implements Initializable {
         Rule r = mainTab.getSelectionModel().getSelectedItem();
         if (r == null) return;
         manager.remove(r);
-        mainTab.refresh();
     }
     
     //funzione per 
@@ -770,6 +775,9 @@ public class FXMLDocumentController implements Initializable {
         RuleChecker.updateList(manager.getList());
         mainTab.setItems(manager.getList());
         setTabColumns();
+        
+        for(Rule rule : RuleManager.getInstance().getList())
+            rule.subscribeObserver(new TableObserver(mainTab));
     }
     
     private boolean isValidDay(String day) {
