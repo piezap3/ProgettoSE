@@ -10,7 +10,6 @@ import Triggers.*;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -18,15 +17,14 @@ import javafx.beans.property.StringProperty;
  * Class that implements single rules.
  * @author Marco
  */
-public class Rule implements Serializable, Observable{
-    private String name;
+public class Rule implements Serializable{
+      private String name;
     private Trigger trigger;
     private Action action;
     private boolean isActive;
     private EnumActivityType activityType;
     private LocalTime sleepTime; // in seconds
     private LocalTime lastFired; // Last time rule was fired
-    private transient ArrayList<Observer> observers;
     
     /**
      * Constructor for Rule class
@@ -44,7 +42,6 @@ public class Rule implements Serializable, Observable{
         this.activityType = activityType;
         this.sleepTime = sleepConverter(sleepTime);
         this.lastFired = null;
-        this.observers = new ArrayList<>();
     }
     /**
      * Method to get the activity type of the rule
@@ -73,7 +70,6 @@ public class Rule implements Serializable, Observable{
      */
     public void setActive(boolean b) {
         this.isActive = b;
-        notifyObservers();
     }
     /**
      * Method to get sleep time of rule
@@ -112,12 +108,7 @@ public class Rule implements Serializable, Observable{
                                 .plusMinutes(sleep.getMinute())
                                 .plusSeconds(sleep.getSecond());
         
-//        this.isActive = !sumTime.isAfter(LocalTime.now());
-
-        if(sumTime.isAfter(LocalTime.now()))
-            this.setActive(false);
-        else
-            this.setActive(true);
+        this.isActive = !sumTime.isAfter(LocalTime.now());
 
     }
     /**
@@ -136,7 +127,6 @@ public class Rule implements Serializable, Observable{
         // if fire once or sleep => become inactive
         if (this.getActivityType() != EnumActivityType.NORMAL_FIRING) {
             this.setActive(false);
-            System.out.println("Firing");
         }
     }
     /**
@@ -188,24 +178,6 @@ public class Rule implements Serializable, Observable{
             StringProperty p;
             p = new SimpleStringProperty("Disattivata");
             return p;
-        }
-    }
-
-    @Override
-    public void subscribeObserver(Observer observer) {
-        if(observers == null)
-            observers =  new ArrayList<>();
-        
-        if(!observers.contains(observer)){
-            observers.add(observer);
-        }
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer o : observers){
-            o.update();
-            System.out.println("Notificato");
         }
     }
 }

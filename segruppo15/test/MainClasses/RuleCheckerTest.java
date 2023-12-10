@@ -26,7 +26,7 @@ public class RuleCheckerTest {
     public void setUp() {
         ruleList = FXCollections.observableArrayList();
         tableView = new TableView<>();
-        ruleChecker = new RuleChecker(ruleList);
+        ruleChecker = new RuleChecker(ruleList, tableView);
     }
     
     @BeforeClass

@@ -11,20 +11,14 @@ import MainClasses.Rule;
 import MainClasses.RuleManager;
 import java.io.File;
 import java.net.URL;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,18 +32,14 @@ import javafx.stage.Stage;
 import Actions.*;
 import MainClasses.FileDirector;
 import MainClasses.RuleChecker;
-import MainClasses.TableObserver;
 import Triggers.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 /**
@@ -151,10 +141,9 @@ public class FXMLDocumentController implements Initializable {
     private String pathFileToCompare;
     private File directoryDestinazione=null;
     private RuleManager manager = RuleManager.getInstance();//new RuleManager();RuleManager.getInstance();
-    RuleChecker RuleChecker = new RuleChecker(manager.getList());
+    RuleChecker RuleChecker = new RuleChecker(manager.getList(),mainTab);
     private MultiAction multiAc;
      
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Viene definita una struttura per contenere i diversi tipi di trigger
@@ -177,228 +166,69 @@ public class FXMLDocumentController implements Initializable {
         // Imposta un listener sulla selezione della ComboBox
         triggerComboBoxID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Controlla il valore selezionato e mostra/nascondi la Label in base ad esso
-            if (newValue != null && newValue.equals("TimeOfDay")) {
-                labelOrarioID.setVisible(true);
-                labelDayOfMonth.clear();
-                labelDayOfMonth.setVisible(false);
-                labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
-                DatePickerID.setValue(null);
-                DatePickerID.setVisible(false);
-                labelFileExistence.clear();
-                labelFileExistence.setVisible(false);
-                inputExternalProgram.setVisible(false);
-                interpreteLabelID.setVisible(false);
-                outputExternalProgram.setVisible(false);
-                inputExternalProgram.clear();
-                outputExternalProgram.clear();
-                interpreteLabelID.clear();
-                programSelected=null;
-                ProgramButtonID.setVisible(false);
-                textFieldFileSize.setVisible(false);
-                textFieldFileSize.clear();
-                fileToCompare=null;
-            } else if(newValue != null && newValue.equals("DayOfMonth")){
-                labelDayOfMonth.setVisible(true);
-                labelOrarioID.clear();
-                labelOrarioID.setVisible(false); 
-                labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
-                DatePickerID.setValue(null);
-                DatePickerID.setVisible(false);
-                labelFileExistence.clear();
-                labelFileExistence.setVisible(false);
-                inputExternalProgram.setVisible(false);
-                outputExternalProgram.setVisible(false);
-                interpreteLabelID.setVisible(false);
-                inputExternalProgram.clear();
-                outputExternalProgram.clear();
-                interpreteLabelID.clear();
-                programSelected=null;
-                ProgramButtonID.setVisible(false);
-                textFieldFileSize.setVisible(false);
-                textFieldFileSize.clear();
-                fileToCompare=null;
-            }else if(newValue != null && newValue.equals("DayOfWeek")){
-                labelDayOfWeek.setVisible(true);
-                labelOrarioID.clear();
-                labelOrarioID.setVisible(false);
-                labelDayOfMonth.clear();
-                labelDayOfMonth.setVisible(false);
-                DatePickerID.setValue(null);
-                DatePickerID.setVisible(false);
-                labelFileExistence.clear();
-                labelFileExistence.setVisible(false);
-                inputExternalProgram.setVisible(false);
-                outputExternalProgram.setVisible(false);
-                inputExternalProgram.clear();
-                outputExternalProgram.clear();
-                interpreteLabelID.setVisible(false);
-                interpreteLabelID.clear();
-                programSelected=null;
-                textFieldFileSize.setVisible(false);
-                textFieldFileSize.clear();
-                fileToCompare=null;                
-                ProgramButtonID.setVisible(false);
-            }else if(newValue != null && newValue.equals("Annual")){
-                DatePickerID.setVisible(true);
-                labelOrarioID.clear();
-                labelOrarioID.setVisible(false);
-                labelDayOfMonth.clear();
-                labelDayOfMonth.setVisible(false);
-                labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
-                labelFileExistence.clear();
-                labelFileExistence.setVisible(false);
-                inputExternalProgram.setVisible(false);
-                outputExternalProgram.setVisible(false);
-                inputExternalProgram.clear();
-                outputExternalProgram.clear();
-                interpreteLabelID.setVisible(false);
-                interpreteLabelID.clear();
-                programSelected=null;
-                textFieldFileSize.setVisible(false);
-                textFieldFileSize.clear();
-                fileToCompare=null;
-                ProgramButtonID.setVisible(false);
-            }else if(newValue != null && newValue.equals("ExternalProgram")){
-                DatePickerID.setValue(null);
-                DatePickerID.setVisible(false);
-                labelOrarioID.clear();
-                labelOrarioID.setVisible(false);
-                labelDayOfMonth.clear();
-                labelDayOfMonth.setVisible(false);
-                labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
-                labelFileExistence.clear();
-                labelFileExistence.setVisible(false);
-                inputExternalProgram.setVisible(true);
-                outputExternalProgram.setVisible(true);
-                ProgramButtonID.setText("Seleziona File");
-                interpreteLabelID.setVisible(true);
-                ProgramButtonID.setVisible(true);
-                programSelected=null;
-                textFieldFileSize.setVisible(false);
-                textFieldFileSize.clear();
-                fileToCompare=null;
-            }else if(newValue != null && newValue.equals("FileExistence")){
-                labelFileExistence.setVisible(true);
-                labelOrarioID.clear();
-                labelOrarioID.setVisible(false);
-                labelDayOfMonth.clear();
-                labelDayOfMonth.setVisible(false);
-                labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
-                DatePickerID.setValue(null);
-                DatePickerID.setVisible(false);
-                inputExternalProgram.setVisible(false);
-                outputExternalProgram.setVisible(false);
-                interpreteLabelID.setVisible(false);
-                ProgramButtonID.setVisible(false);
-                programSelected=null;
-                textFieldFileSize.setVisible(false);
-                textFieldFileSize.clear();
-                fileToCompare=null;
-            }else if(newValue != null && newValue.equals("FileSize")){
-                DatePickerID.setValue(null);
-                DatePickerID.setVisible(false);
-                labelOrarioID.clear();
-                labelOrarioID.setVisible(false);
-                labelDayOfMonth.clear();
-                labelDayOfMonth.setVisible(false);
-                labelDayOfWeek.clear();
-                labelDayOfWeek.setVisible(false);
-                labelFileExistence.clear();
-                labelFileExistence.setVisible(false);
-                inputExternalProgram.setVisible(false);
-                outputExternalProgram.setVisible(false);
-                ProgramButtonID.setText("Seleziona File");
-                interpreteLabelID.setVisible(false);
-                ProgramButtonID.setVisible(true);
-                programSelected=null;
-                textFieldFileSize.setVisible(true);
-                fileToCompare=null;
-            }
-            else{
-                labelOrarioID.setVisible(false); // Nascondi tutti i textfield
-                labelDayOfMonth.setVisible(false);//nascondi tutti i textfield
-                labelDayOfWeek.setVisible(false);//nascondi tutti i textfield
-                DatePickerID.setVisible(false);//nascondi tutti i textfield
-                labelFileExistence.setVisible(false);//nascondi tutti i textfield
-                inputExternalProgram.setVisible(false);
-                outputExternalProgram.setVisible(false);
-                ProgramButtonID.setVisible(false);
-                interpreteLabelID.setVisible(false);
-                textFieldFileSize.setVisible(false);
-            }
+            clearTriggerItems();
+            if (newValue != null)
+                switch (newValue) {
+                    case "TimeOfDay":
+                        labelOrarioID.setVisible(true);
+                        break;
+                    case "DayOfMonth":
+                        labelDayOfMonth.setVisible(true);
+                        break;
+                    case "DayOfWeek":
+                        labelDayOfWeek.setVisible(true);
+                        break;
+                    case "Annual":
+                        DatePickerID.setVisible(true);
+                        break;
+                    case "ExternalProgram":
+                        inputExternalProgram.setVisible(true);
+                        outputExternalProgram.setVisible(true);
+                        interpreteLabelID.setVisible(true);
+                        ProgramButtonID.setVisible(true);
+                        break;
+                    case "FileExistence":
+                        labelFileExistence.setVisible(true);
+                        break;
+                    case "FileSize":
+                        ProgramButtonID.setVisible(true);
+                        textFieldFileSize.setVisible(true);
+                        break;
+                }
         });
         
         // Imposta un listener sulla selezione della ComboBox
         actionsComboBoxID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            // Controlla il valore selezionato e mostra/nascondi la Label in base ad esso
-            if (newValue != null && ((newValue.equals("Audio"))||newValue.equals("Delete File") || newValue.equals("MoveFile") || newValue.equals("CopyFile"))) {
-                FileButton.setText("Seleziona File");
-                FileButton.setVisible(true);
-                labelMessageActionID.setVisible(false);// Mostra la Label se l'elemento selezionato è "Mostra Label"
-                labelWriteMessage.setVisible(false);
-                commandProgramID.setVisible(false);
-                CreaRegolaID.setDisable(true); 
-                selectedFile=null;
-                directoryDestinazione=null;
-                selectedFileWrite=null;
-                selectedProgram=null;
-                labelMessageActionID.clear();
-                MultiActionVBox.getChildren().clear();
-            } else if(newValue != null && newValue.equals("WriteOnFile")){
-                FileButton.setText("Seleziona File");
-                FileButton.setVisible(true);
-                labelMessageActionID.setVisible(false);
-                labelWriteMessage.setVisible(true);
-                commandProgramID.setVisible(false);
-                CreaRegolaID.setDisable(true); 
-                selectedFile=null;
-                directoryDestinazione=null;
-                selectedFileWrite=null;
-                selectedProgram=null;
-                labelMessageActionID.clear();
-                MultiActionVBox.getChildren().clear();
-            }else if(newValue != null && newValue.equals("Message")){
-                labelMessageActionID.setVisible(true);
-                FileButton.setVisible(false);
-                labelWriteMessage.setVisible(false);
-                commandProgramID.setVisible(false);
-                CreaRegolaID.setDisable(true); 
-                selectedFile=null;
-                directoryDestinazione=null;
-                selectedFileWrite=null;
-                selectedProgram=null;
-                MultiActionVBox.getChildren().clear();
-            }else if(newValue != null && newValue.equals("ExternalProgram")){
-                FileButton.setText("Seleziona File");
-                FileButton.setVisible(true);
-                labelMessageActionID.setVisible(false);
-                labelWriteMessage.setVisible(false);
-                commandProgramID.setVisible(true);
-                CreaRegolaID.setDisable(true); 
-                selectedFile=null;
-                directoryDestinazione=null;
-                selectedFileWrite=null;
-                selectedProgram=null;
-                MultiActionVBox.getChildren().clear();
-            } else if(newValue != null && newValue.equals("MultiAction")) { //MULTIACTION SECTION
-                labelMessageActionID.setVisible(false);
-                FileButton.setVisible(false);
-                labelWriteMessage.setVisible(false);
-                commandProgramID.setVisible(false);
-                CreaRegolaID.setDisable(true); 
-                selectedFile=null;
-                directoryDestinazione=null;
-                selectedFileWrite=null;
-                selectedProgram=null;
-                MultiActionVBox.setSpacing(10);
-                multiAc = new MultiAction();
-                multiAc.initNewAction(MultiActionVBox,itemsActions);
-            }
+            clearActionItems();
+            if (newValue != null)
+                switch (newValue) {
+                    case "Audio":
+                    case "Delete File":
+                    case "MoveFile":
+                    case "CopyFile":
+                        FileButton.setVisible(true);
+                        break;
+                    case "Seleziona File":
+                        FileButton.setVisible(true);
+                        labelWriteMessage.setVisible(true);
+                        break;
+                    case "Message":
+                        labelMessageActionID.setVisible(true);
+                        break;
+                    case "WriteOnFile":
+                        FileButton.setVisible(true);
+                        labelWriteMessage.setVisible(true);
+                        break;
+                    case "ExternalProgram":
+                        FileButton.setVisible(true);
+                        commandProgramID.setVisible(true);
+                        break;
+                    case "MultiAction":
+                        MultiActionVBox.setSpacing(10);
+                        multiAc = new MultiAction();
+                        multiAc.initNewAction(MultiActionVBox,itemsActions);
+                        break;
+                }
         });
         
         // Mostra la selezione dell'orario in caso di Sleep After Firing
@@ -428,17 +258,13 @@ public class FXMLDocumentController implements Initializable {
         textFieldFileSize.textProperty().addListener((observable, oldvalue, newValue) -> updateStateButton());
         
         // Service
-        RuleChecker rc = new RuleChecker(manager.getList());
+        RuleChecker rc = new RuleChecker(manager.getList(),mainTab);
         rc.setPeriod(Duration.seconds(5));
         rc.start();
         RuleChecker = rc;
         
         // LoadFile
         loadFile(null);
-        
-        //Iscrivo la tabella alle regole caricate dal file
-        for(Rule r : RuleManager.getInstance().getList())
-            r.subscribeObserver(new TableObserver(mainTab));
         
         //fa si che nel datepicker sia impossibile selezionare date precedenti a quella attuale
         DatePickerID.setDayCellFactory(picker -> new DateCell() {
@@ -451,17 +277,55 @@ public class FXMLDocumentController implements Initializable {
         });
     }    
 
+    // Clears all graphics items for triggers (configured to listener to combobox of triggers)
+    private void clearTriggerItems() {
+        labelOrarioID.setVisible(false);
+        labelDayOfMonth.clear();
+        labelDayOfMonth.setVisible(false);
+        labelDayOfWeek.clear();
+        labelDayOfWeek.setVisible(false);
+        DatePickerID.setValue(null);
+        DatePickerID.setVisible(false);
+        labelFileExistence.clear();
+        labelFileExistence.setVisible(false);
+        inputExternalProgram.setVisible(false);
+        interpreteLabelID.setVisible(false);
+        outputExternalProgram.setVisible(false);
+        inputExternalProgram.clear();
+        outputExternalProgram.clear();
+        interpreteLabelID.clear();
+        programSelected=null;
+        ProgramButtonID.setVisible(false);
+        textFieldFileSize.setVisible(false);
+        textFieldFileSize.clear();
+        fileToCompare=null;
+    }
+    // Clears all graphics items for actions (configured to listener to combobox of actions)
+    private void clearActionItems() {
+        FileButton.setText("Seleziona File");
+        FileButton.setVisible(false);
+        labelMessageActionID.setVisible(false);
+        labelWriteMessage.setVisible(false);
+        commandProgramID.setVisible(false);
+        CreaRegolaID.setDisable(true);
+        selectedFile=null;
+        directoryDestinazione=null;
+        selectedFileWrite=null;
+        selectedProgram=null;
+        MultiActionVBox.getChildren().clear();
+    }
 
     @FXML
     private void SelectFile(ActionEvent event) {
+        // Finestra di selezione del File
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleziona il file");
+        // Filtro se deve essere un File Audio
         if(actionsComboBoxID.getValue().equals("Audio")){
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("File audio", "*.mp3", "*.wav", "*.aac")
-        );
+            );
         }
-
         // Mostra il dialogo di selezione file e ottieni il file selezionato
         if(actionsComboBoxID.getValue().equals("WriteOnFile")){
             selectedFileWrite=fileChooser.showOpenDialog(stage);
@@ -472,6 +336,7 @@ public class FXMLDocumentController implements Initializable {
         
         //mostro il dialogo di selezione cartella e ottengo la directory di destinazione
         if(actionsComboBoxID.getValue().equals("MoveFile") || actionsComboBoxID.getValue().equals("CopyFile")){
+            if (fileChooser==null) return;
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Seleziona la directory di destinazione");
             directoryDestinazione = directoryChooser.showDialog(stage);
@@ -618,49 +483,58 @@ public class FXMLDocumentController implements Initializable {
         String stringaAction=null;
         
         //type of action
-        if(action.equals("Message")){
-            stringaAction=labelMessageActionID.getText();
-        }else if(action.equals("Audio")){
-            //stringaAction=FilField.getText();
-            stringaAction=audio_path;
-        }else if(action.equals("Delete File")){
-            stringaAction=audio_path;
-        }else if(action.equals("MoveFile")){
-            String path1 = selectedFile.toString();
-            String path2 = directoryDestinazione.toString();
-            stringaAction=path1+"//"+path2;
-        }else if(action.equals("CopyFile")){
-            String path1 = selectedFile.toString();
-            String path2 = directoryDestinazione.toString();
-            stringaAction=path1+"//"+path2;
-        }else if(action.equals("WriteOnFile")){
-            String path1 = selectedFileWrite.toString();
-            String path2 = labelWriteMessage.getText();
-            stringaAction=path1+"//"+path2;
-        }else if(action.equals("ExternalProgram")){
-            String command=commandProgramID.getText();
-            stringaAction=command+"//"+audio_path;
+        switch(action) {
+            case "Message":
+                stringaAction=labelMessageActionID.getText();
+                break;
+            case "Audio":
+            case "Delete File":
+                stringaAction=audio_path;
+                break;
+            case "MoveFile":
+            case "CopyFile":
+                String path1 = selectedFile.toString();
+                String path2 = directoryDestinazione.toString();
+                stringaAction=path1+"//"+path2;
+                break;
+            case "WriteOnFile":
+                String pathW1 = selectedFileWrite.toString();
+                String pathW2 = labelWriteMessage.getText();
+                stringaAction=pathW1+"//"+pathW2;
+                break;
+            case "ExternalProgram":
+                String command=commandProgramID.getText();
+                stringaAction=command+"//"+audio_path;
+                break;
         }
         
         //type of trigger
-        if(trigger.equals("TimeOfDay")){
-            stringTrigger=labelOrarioID.getText();
-        }else if(trigger.equals("DayOfMonth")){
-            stringTrigger=labelDayOfMonth.getText();
-        }else if (trigger.equals("DayOfWeek")){
-            stringTrigger=labelDayOfWeek.getText();
-        }else if(trigger.equals("Annual")){
-            stringTrigger=DatePickerID.getValue().toString();
-        }else if(trigger.equals("ExternalProgram")){
-            String interprete=interpreteLabelID.getText();
-            String input=inputExternalProgram.getText();
-            String output=outputExternalProgram.getText();
-            stringTrigger=program_path+"//"+interprete+"//"+input+"//"+output;
-        }else if(trigger.equals("FileExistence")){
-            stringTrigger=labelFileExistence.getText();
-        }else if(trigger.equals("FileSize")){
-            String size = textFieldFileSize.getText();
-            stringTrigger=pathFileToCompare+"//"+size;
+        switch (trigger) {
+            case "TimeOfDay":
+                stringTrigger=labelOrarioID.getText();
+                break;
+            case "DayOfMonth":
+                stringTrigger=labelDayOfMonth.getText();
+                break;
+            case "DayOfWeek":
+                stringTrigger=labelDayOfWeek.getText();
+                break;
+            case "Annual":
+                stringTrigger=DatePickerID.getValue().toString();
+                break;
+            case "ExternalProgram":
+                String interprete=interpreteLabelID.getText();
+                String input=inputExternalProgram.getText();
+                String output=outputExternalProgram.getText();
+                stringTrigger=program_path+"//"+interprete+"//"+input+"//"+output;
+                break;
+            case "FileExistence":
+                stringTrigger=labelFileExistence.getText();
+                break;
+            case "FileSize":
+                String size = textFieldFileSize.getText();
+                stringTrigger=pathFileToCompare+"//"+size;
+                break;
         }
         
         //prende il valore activity type e lo strasforma in enum
@@ -686,8 +560,6 @@ public class FXMLDocumentController implements Initializable {
         //click bottone
         creaRegola(event);
         
-        for(Rule rule : RuleManager.getInstance().getList())
-            rule.subscribeObserver(new TableObserver(mainTab));
     }
     
     private void setTabColumns() {
@@ -706,6 +578,7 @@ public class FXMLDocumentController implements Initializable {
         Rule r = mainTab.getSelectionModel().getSelectedItem();
         if (r == null) return;  // Return if rule isn't selected
         manager.activate(r);
+        mainTab.refresh();
     }
     
     @FXML
@@ -713,6 +586,7 @@ public class FXMLDocumentController implements Initializable {
         Rule r = mainTab.getSelectionModel().getSelectedItem();
         if (r == null) return;  // Return if rule isn't selected
         manager.deactivate(r);
+        mainTab.refresh();
     }
     
     @FXML
@@ -720,6 +594,7 @@ public class FXMLDocumentController implements Initializable {
         Rule r = mainTab.getSelectionModel().getSelectedItem();
         if (r == null) return;
         manager.remove(r);
+        mainTab.refresh();
     }
     
     //funzione per 
@@ -775,9 +650,6 @@ public class FXMLDocumentController implements Initializable {
         RuleChecker.updateList(manager.getList());
         mainTab.setItems(manager.getList());
         setTabColumns();
-        
-        for(Rule rule : RuleManager.getInstance().getList())
-            rule.subscribeObserver(new TableObserver(mainTab));
     }
     
     private boolean isValidDay(String day) {
