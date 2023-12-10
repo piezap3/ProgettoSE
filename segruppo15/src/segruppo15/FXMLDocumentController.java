@@ -290,6 +290,7 @@ public class FXMLDocumentController implements Initializable {
         outputExternalProgram.clear();
         interpreteLabelID.clear();
         programSelected=null;
+        ProgramButtonID.setText("Seleziona File");
         ProgramButtonID.setVisible(false);
         textFieldFileSize.setVisible(false);
         textFieldFileSize.clear();
