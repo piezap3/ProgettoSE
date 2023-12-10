@@ -277,9 +277,17 @@ public class MultiAction implements Action, Serializable {
             - Text string will be in tfText. Empty if textField is not present
             - Button string will be in btText. Empty if button is not present
         */
-        if (type.equals("WriteOnFile")) actionText = btText+"//"+tfText;
-        if (type.equals("ExternalProgram")) actionText = tfText+"//"+btText;
-        else actionText = btText+tfText;
+        switch (type) {
+            case "WriteOnFile":
+                actionText = btText+"//"+tfText;
+                break;
+            case "ExternalProgram":
+                actionText = tfText+"//"+btText;
+                break;
+            default:
+                actionText = btText+tfText;
+                break;
+        }
         this.addAction(type, actionText);
     }
 }

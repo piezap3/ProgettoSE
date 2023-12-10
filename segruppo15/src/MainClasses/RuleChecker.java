@@ -46,7 +46,8 @@ public class RuleChecker extends ScheduledService implements Serializable{
             @Override
             protected Object call() throws Exception {
                 for (Rule r : ruleList) {
-                    r.checkAndRun();
+                    r.getState().update();
+                    r.fire();
                 }
                 tab.refresh();
                 return null;

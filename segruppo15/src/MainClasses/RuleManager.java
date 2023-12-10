@@ -56,7 +56,7 @@ public class RuleManager implements Serializable{
      */
     public void activate(Rule r) {
         int index = this.ruleList.indexOf(r);
-        this.ruleList.get(index).setActive(true);
+        this.ruleList.get(index).setState(new StateActiveRule(r));
     }
     /**
      * Method to deactivate a Rule
@@ -64,7 +64,7 @@ public class RuleManager implements Serializable{
      */
     public void deactivate(Rule r) {
         int index = this.ruleList.indexOf(r);
-        this.ruleList.get(index).setActive(false);
+        this.ruleList.get(index).setState(new StateDeactiveRule(r));
     }
     /**
      * Method to get list of rules

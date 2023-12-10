@@ -18,14 +18,13 @@ import javafx.beans.property.StringProperty;
  * @author Marco
  */
 public class Rule implements Serializable{
-      private String name;
+    private String name;
     private Trigger trigger;
     private Action action;
-    private boolean isActive;
     private EnumActivityType activityType;
     private LocalTime sleepTime; // in seconds
     private LocalTime lastFired; // Last time rule was fired
-    
+    private RuleState state;
     /**
      * Constructor for Rule class
      * @param name: name of rule
@@ -38,10 +37,10 @@ public class Rule implements Serializable{
         this.name = name;
         this.trigger = trigger;
         this.action = action;
-        this.isActive = true;
         this.activityType = activityType;
         this.sleepTime = sleepConverter(sleepTime);
         this.lastFired = null;
+        this.state= new StateActiveRule(this);
     }
     /**
      * Method to get the activity type of the rule
@@ -50,6 +49,23 @@ public class Rule implements Serializable{
     public EnumActivityType getActivityType() {
         return this.activityType;
     }
+    
+    public void setLastFired(LocalTime lastFired) {
+        this.lastFired = lastFired;
+    }
+
+    public LocalTime getLastFired() {
+        return lastFired;
+    }
+    
+    public void setState(RuleState state) {
+        this.state = state;
+    }
+
+    public RuleState getState() {
+        return state;
+    }
+    
     /**
      * Method to set the ActivityType of a Rule according to EnumActivityType
      * @param act 
@@ -62,14 +78,8 @@ public class Rule implements Serializable{
      * @return boolean isActive
      */
     public boolean isActive() {
-        return this.isActive;
-    }
-    /**
-     * Method to set active-ness of a Rule
-     * @param b 
-     */
-    public void setActive(boolean b) {
-        this.isActive = b;
+        // Se lo stato della regola è ActiveState, restituisce true
+          return this.state instanceof StateActiveRule;
     }
     /**
      * Method to get sleep time of rule
@@ -93,57 +103,29 @@ public class Rule implements Serializable{
      * Method to check if rule should be sleeping or not
      */
     public void updateSleep() {
-        // Return if is already active
-        if (this.isActive() == true) return;
-        
-        // Return if rule activity isn't SLEEP_AFTER_FIRING
-        if (this.getActivityType() != EnumActivityType.SLEEP_AFTER_FIRING) return;
-        
-        
-        LocalTime lastF = this.lastFired;
-        LocalTime sleep = this.getSleepTime();
-        
-        // Check if lastfired + sleeptime < now
-        LocalTime sumTime = lastF.plusHours(sleep.getHour())
-                                .plusMinutes(sleep.getMinute())
-                                .plusSeconds(sleep.getSecond());
-        
-        this.isActive = !sumTime.isAfter(LocalTime.now());
-
-    }
-    /**
-     * Method to check if rule trigger is verified
-     * @return True if trigger is verified. False otherwise
-     */
-    public boolean verTrigger() {
-        return this.trigger.isVerified();
+        state.update();
     }
     /**
      * Method to fire rule. Updates last fired of the rule
      */
     public void fire() {
-        this.action.exec();
-        this.lastFired = LocalTime.now();
-        // if fire once or sleep => become inactive
-        if (this.getActivityType() != EnumActivityType.NORMAL_FIRING) {
-            this.setActive(false);
-        }
+        state.fire();
     }
     /**
      * Method that fires rule if:
      *  - rule is active
      *  - trigger is verified
      */
-    public void checkAndRun() {
-        
-        this.updateSleep();
-        if (this.isActive()){
-            if (this.verTrigger()) {
-                // Run rule
-                this.fire();
-            }
-        }
-    }
+//    public void checkAndRun() {
+//        
+//        this.updateSleep();
+//        if (this.isActive()){
+//            if (this.verTrigger()) {
+//                // Run rule
+//                this.fire();
+//            }
+//        }
+//    }
     /**
      * Method to get name of rule
      * @return name string
@@ -170,7 +152,7 @@ public class Rule implements Serializable{
      * @return StringProperty
      */
     public StringProperty getActivity(){
-        if(isActive){
+        if(isActive()){
             StringProperty p;
             p = new SimpleStringProperty("Attivata");
             return p;

@@ -32,6 +32,8 @@ import javafx.stage.Stage;
 import Actions.*;
 import MainClasses.FileDirector;
 import MainClasses.RuleChecker;
+import MainClasses.StateActiveRule;
+import MainClasses.StateDeactiveRule;
 import Triggers.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -324,6 +326,11 @@ public class FXMLDocumentController implements Initializable {
         if(actionsComboBoxID.getValue().equals("Audio")){
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("File audio", "*.mp3", "*.wav", "*.aac")
+            );
+        }
+        if(actionsComboBoxID.getValue().equals("WriteOnFile")){
+            fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("File audio", "*.txt")
             );
         }
         // Mostra il dialogo di selezione file e ottieni il file selezionato
