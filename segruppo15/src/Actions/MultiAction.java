@@ -104,6 +104,14 @@ public class MultiAction implements Action, Serializable {
     }
     
     /**
+     * method to get the size of the list
+     * @return childActions.size()
+     */
+    public int getSizeChildActions() {
+        return childActions.size();
+    }
+    
+    /**
      * Method to create a new action box in the create rule interface
      * @param vbox Vertical Box where actions boxes are added
      * @param itemsActions List to display in the combobox for each action
